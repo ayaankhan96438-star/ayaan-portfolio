@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion, useMotionValue, useSpring, useReducedMotion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Github } from "lucide-react";
 import { projects } from "@/data/projects";
 import { BrowserWindow } from "@/components/BrowserWindow";
 
@@ -75,6 +75,18 @@ export function ProjectsSection() {
                 {project.stack.slice(0, 4).map((tag) => <span key={tag}>{tag}</span>)}
               </div>
             </Link>
+            <div className="project-actions" aria-label={`${project.title} project links`}>
+              {project.liveUrl ? (
+                <a className="project-action project-action-live" href={project.liveUrl} target="_blank" rel="noreferrer">
+                  <span>Live Demo</span><ArrowUpRight size={15} aria-hidden="true" />
+                </a>
+              ) : null}
+              {project.githubUrl ? (
+                <a className="project-action project-action-github" href={project.githubUrl} target="_blank" rel="noreferrer">
+                  <Github size={14} aria-hidden="true" /><span>GitHub</span><ArrowUpRight size={14} aria-hidden="true" />
+                </a>
+              ) : null}
+            </div>
           </motion.article>
           );
         })}

@@ -70,8 +70,9 @@ export function PlaygroundSection() {
               key={group.number}
               initial={reduceMotion ? false : { opacity: 0, y: 18 }}
               whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+              whileHover={reduceMotion ? undefined : { y: -5 }}
               viewport={{ once: true, amount: 0.18 }}
-              transition={reduceMotion ? { duration: 0 } : { duration: 0.42, delay: index * 0.055, ease: "easeOut" }}
+              transition={reduceMotion ? { duration: 0 } : { duration: 0.32, delay: index * 0.055, ease: "easeOut" }}
             >
               <div className="stack-card-top">
                 <span className="stack-card-number">{group.number} / 04</span>

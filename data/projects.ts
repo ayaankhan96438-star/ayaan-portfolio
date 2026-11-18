@@ -64,6 +64,7 @@ export const projects: Project[] = [
     year: "2026",
     role: "Product design · Front-end development",
     stack: ["Vite", "chess.js", "Stockfish"],
+    liveUrl: "https://ayaankhan96438-star.github.io/royal-realms-chess/",
     githubUrl: "https://github.com/ayaankhan96438-star/royal-realms-chess",
     challenge:
       "Make a familiar game feel personal without getting in the way of the game itself. The interface needed to stay readable, responsive, and usable without an internet connection.",

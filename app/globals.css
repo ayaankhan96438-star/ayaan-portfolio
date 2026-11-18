@@ -170,7 +170,18 @@ img { display: block; max-width: 100%; }
   box-shadow: 0 5px 18px rgb(var(--ink-rgb) / 4%);
   transition: border-color .28s var(--ease-out), box-shadow .28s var(--ease-out), transform .28s var(--ease-out);
 }
-.project-link { display: flex; height: 100%; flex-direction: column; }
+.project-card { display: flex; flex-direction: column; }
+.project-link { display: flex; min-height: 0; flex: 1; flex-direction: column; }
+.project-actions { display: flex; gap: 8px; margin-top: auto; padding: 10px 5px 3px; }
+.project-action {
+  display: inline-flex; min-width: 0; min-height: 38px; flex: 1; align-items: center; justify-content: center; gap: 7px;
+  padding: 0 10px; border: 1px solid var(--line); border-radius: 5px; background: var(--paper); color: var(--ink);
+  font-size: 9px; font-weight: 700; letter-spacing: .015em; white-space: nowrap;
+  transition: transform .24s var(--ease-out), border-color .24s var(--ease-out), background .24s var(--ease-out), color .24s var(--ease-out);
+}
+.project-action-live { border-color: var(--ink); background: var(--ink); color: var(--on-dark); }
+.project-action:hover { transform: translateY(-2px); border-color: var(--accent-strong); background: var(--accent); color: var(--ink); }
+.project-action:focus-visible { outline: 2px solid var(--accent-strong); outline-offset: 3px; }
 .project-image-wrap { position: relative; aspect-ratio: 1.48; overflow: hidden; background: var(--paper); border-radius: 7px; }
 .project-image { object-fit: cover; transition: transform .32s var(--ease-out); }
 .project-image-index { position: absolute; top: 16px; left: 17px; color: var(--paper); z-index: 1; font-size: 9px; letter-spacing: .1em; mix-blend-mode: difference; }
@@ -196,7 +207,13 @@ img { display: block; max-width: 100%; }
   display: flex; min-width: 0; min-height: 290px; flex-direction: column;
   padding: 20px 19px 17px; border: 1px solid var(--line); border-radius: 10px;
   background: var(--surface); box-shadow: 0 8px 24px rgb(var(--ink-rgb) / 4%);
+  transition: border-color .28s var(--ease-out), box-shadow .28s var(--ease-out);
 }
+.stack-card:hover { border-color: color-mix(in srgb, var(--accent-strong) 60%, var(--line)); box-shadow: 0 16px 34px rgb(var(--ink-rgb) / 9%); }
+.stack-card-icon { transition: transform .28s var(--ease-out), border-color .28s var(--ease-out), background .28s var(--ease-out); }
+.stack-card:hover .stack-card-icon { transform: translateY(-2px) rotate(-5deg); border-color: var(--accent-strong); background: color-mix(in srgb, var(--accent) 24%, var(--paper)); }
+.stack-tag { transition: border-color .24s var(--ease-out), transform .24s var(--ease-out); }
+.stack-card:hover .stack-tag { border-color: color-mix(in srgb, var(--accent-strong) 38%, var(--line)); }
 .stack-card-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .stack-card-number { color: var(--muted); font-size: 9px; font-weight: 700; letter-spacing: .13em; }
 .stack-card-icon { display: grid; width: 38px; height: 38px; place-items: center; border: 1px solid var(--line); border-radius: 9px; background: var(--paper); color: var(--ink); }
@@ -353,6 +370,8 @@ img { display: block; max-width: 100%; }
   .project-info p { font-size: 12px; }
   .project-tags { min-height: 36px; gap: 5px; padding-top: 11px; }
   .project-tags span { font-size: 8px; padding: 5px 7px; }
+  .project-actions { gap: 7px; padding: 10px 5px 2px; }
+  .project-action { min-height: 36px; padding-inline: 8px; font-size: 9px; }
   .project-view-cursor { display: none; }
   .projects-footnote { margin-top: 55px; font-size: 7px; }
   .playground-intro { display: block; padding: 43px 0 30px; }
@@ -397,6 +416,11 @@ img { display: block; max-width: 100%; }
   .next-project-row .text-link { font-size: 10px; }
 }
 
+
+/* Laptop/desktop: give each contact headline line enough vertical room for i-dots and descenders. */
+@media (min-width: 641px) {
+  .contact-section h2 { line-height: 1.04; }
+}
 
 /* Keyboard feedback mirrors the visual hover cues without requiring a pointer. */
 .menu-overlay a:focus-visible, .menu-overlay button:focus-visible,

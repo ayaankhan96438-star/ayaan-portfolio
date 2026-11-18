@@ -323,6 +323,8 @@ export function Preloader() {
       gsap.set([previewNavbarRef.current, previewHeroRef.current, previewProjectsRef.current], { autoAlpha: 0, y: 12 });
 
       const timeline = gsap.timeline({ paused: true, onComplete: finish });
+      // Keep the complete intro at a deliberate ~5-second pace on desktop and mobile.
+      timeline.timeScale(profile.total / 5);
       timelineRef.current = timeline;
       timeline.addLabel("workspace", profile.workspace.at);
       timeline.addLabel("typing", profile.typing.at);
@@ -593,7 +595,7 @@ export function Preloader() {
   if (!visible) return null;
 
   const codeLines = visibleCode.split("\n");
-  const visibleLines = isPhone ? codeLines.slice(-3) : codeLines;
+  const visibleLines = isPhone ? codeLines.slice(-5) : codeLines;
   const displayCode = visibleLines.join("\n");
   const firstVisibleLine = Math.max(1, codeLines.length - visibleLines.length + 1);
   const lineNumbers = Array.from({ length: Math.max(1, visibleLines.length) }, (_, index) => firstVisibleLine + index);
