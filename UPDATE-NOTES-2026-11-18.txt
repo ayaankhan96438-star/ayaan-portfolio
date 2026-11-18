@@ -1,0 +1,12 @@
+PORTFOLIO VISUAL FIX — 18 NOV 2026
+
+This overlay contains only the requested corrections:
+
+1. Removed the two scrolling image-box rows from the live Think / Code / Ship hero. The original three-line headline, intro copy, navigation, and headline reveal remain.
+2. Removed the same image-box rows from the small homepage preview inside the preloader.
+3. Changed the Selected Work previews from one oversized featured card plus two oversized half-width cards to three compact, balanced desktop cards (two columns on tablet; one contained card per row on mobile). Project routes, data, links, and descriptions are unchanged.
+4. Resized the three Book Exchange cover titles so ALMANAC, BETTER THINKING, and MOTION stay inside their respective cover borders.
+
+Only these files are included in the overlay: HeroSection.tsx, Preloader.tsx, ProjectsSection.tsx, globals.css, preloader.css, and project-books.svg.
+
+Apply from the existing project root. This is an overlay update; it does not replace package files or unrelated sections.

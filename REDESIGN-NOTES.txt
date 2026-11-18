@@ -1,0 +1,28 @@
+AYAAN PORTFOLIO — HERO REWORK
+============================
+
+What changed
+------------
+- Removed both moving project-image strips from the homepage hero. They no longer cut through or interrupt the Think / Code / Ship headline.
+- Rebuilt the hero as a balanced two-column layout: clear headline, short introduction and working navigation links on the left; one large AmaanTrader project spotlight on the right.
+- Kept the warm ivory, charcoal, sage and lime visual system already used by the site.
+- Added responsive single-column behavior for phones and tablet sizing for narrower screens.
+- Kept the existing featured AmaanTrader card first in Selected Work, with Chess and Book Exchange below it.
+- Left the preloader, navigation, case-study routes, project data, footer and other sections unchanged.
+
+Files changed
+-------------
+- components/HeroSection.tsx
+- app/globals.css
+- REDESIGN-NOTES.txt (this file)
+
+Validation
+----------
+- Hero TSX transpilation syntax check: passed.
+- app/globals.css and app/preloader.css PostCSS parse: passed.
+- Old Hero image-strip references: none remain in HeroSection or the stylesheet.
+- Full npm install was attempted but timed out in this packaging environment, so the full Next.js typecheck and production build were not run here.
+
+After applying this source overlay in the existing project, run:
+  npm run typecheck
+  npm run build

@@ -1,0 +1,20 @@
+AAYAAN PORTFOLIO — HOMEPAGE STRIP RESTORE
+
+This is a two-file overlay for the existing Next.js project.
+
+Files included:
+- components/HeroSection.tsx
+- app/globals.css
+
+What this update does:
+- Restores the two scrolling project-preview strips on the MAIN HOMEPAGE, between Think/Code and Code/Ship.
+- Restores their horizontal scroll-linked movement.
+- Makes the preview boxes slightly wider and taller so they are easier to see.
+- Leaves the preloader files untouched. The preloader preview remains strip-free.
+
+Apply from the project root:
+  unzip -o ayaan-portfolio-home-hero-strip-restored-20261118.zip -d .
+
+Then verify:
+  npm run typecheck
+  npm run build

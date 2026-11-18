@@ -1,0 +1,36 @@
+AYAAN PORTFOLIO — VISUAL / PRELOADER UPDATE
+
+What changed
+- Replaced the blue palette with charcoal, warm ivory, sage and lime accents.
+- Recolored the existing project preview artwork and browser icon to match the new palette.
+- Put AmaanTrader first as the featured project, with a large editorial image and details alongside it.
+- Moved Royal Realms Chess and Book Exchange into equal-sized cards underneath.
+- Kept the featured AmaanTrader project first on mobile, full width.
+- Rebuilt the Live Build preloader styling for desktop, tablet and phone while preserving its readiness gate, reduced-motion handling, session-once behavior, Lenis stop/start, completion event and failsafes.
+- Corrected the GSAP timeline TypeScript narrowing issue that previously made .play() resolve to never.
+
+Files changed
+- app/globals.css
+- app/preloader.css
+- app/layout.tsx
+- app/icon.svg
+- components/Preloader.tsx
+- components/ProjectsSection.tsx
+- data/projects.ts
+- public/images/hero-interface.svg
+- public/images/project-amaantrader.svg
+- public/images/project-chess.svg
+- public/images/project-books.svg
+
+Checks performed in this packaging environment
+- TS/TSX syntax transpilation: passed for the edited TypeScript files.
+- CSS parser: 0 syntax errors in globals.css and preloader.css.
+- SVG/XML validation: passed for all edited SVG assets.
+- Legacy blue palette hex values: no matches in app, components, data or public assets.
+- ZIP integrity: checked after packaging.
+
+A full Next.js typecheck/build was not run here because installing the project's npm dependencies timed out in this environment. On the project machine, run:
+  npm run typecheck
+  npm run build
+
+The archive contains the complete source tree at its root (no extra wrapper folder). It intentionally excludes node_modules, .next and local environment files.
