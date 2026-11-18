@@ -106,7 +106,7 @@ img { display: block; max-width: 100%; }
 .hero-title {
   display: flex; flex-direction: column; gap: clamp(10px, 1.7vw, 22px);
   width: 100%; margin: 0; font-size: clamp(86px, 17.2vw, 260px);
-  font-weight: 850; line-height: .8; letter-spacing: -.067em; font-kerning: normal;
+  font-weight: 850; line-height: .8; letter-spacing: -.042em; font-kerning: normal;
 }
 .hero-word-mask { display: block; width: fit-content; max-width: 100%; overflow: hidden; padding: .08em .17em .15em var(--gutter); margin-left: calc(var(--gutter) * -1); }
 .hero-word-inner { display: block; transform-origin: 50% 100%; }
@@ -314,7 +314,7 @@ img { display: block; max-width: 100%; }
   .hero-topline .eyebrow { max-width: 130px; font-size: 8px; }
   .hero-index { max-width: 135px; font-size: 8px; }
   .hero-copy { padding-top: 45px; }
-  .hero-title { font-size: clamp(84px, 19.5vw, 128px); gap: 17px; letter-spacing: -.048em; }
+  .hero-title { font-size: clamp(84px, 19.5vw, 128px); gap: 17px; letter-spacing: -.025em; }
   .hero-strip { height: clamp(60px, 16vw, 92px); margin: 5px 0; }
   .hero-strip-track { gap: 8px; padding: 0 8px; }
   .hero-strip-image { width: 52vw; }
