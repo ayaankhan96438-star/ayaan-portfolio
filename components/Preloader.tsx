@@ -12,75 +12,75 @@ type BuildFile = { name: string; code: string };
 
 /** The only place to tune the preloader sequence. Times are in seconds. */
 const TIMING = {
-  readinessMaxWait: 7.35,
-  hardFailsafe: 13.5,
-  cssFailsafe: 14,
+  readinessMaxWait: 1.6,
+  hardFailsafe: 8,
+  cssFailsafe: 8.5,
   shared: {
-    typingFallback: 0.1,
+    typingFallback: 0.08,
     terminalEnterRatio: 0.85,
-    workspaceLayerOffsets: { editor: 0.06, preview: 0.1, terminal: 0.16 },
+    workspaceLayerOffsets: { editor: 0.04, preview: 0.07, terminal: 0.1 },
     previewMotion: {
-      heroWordDuration: 0.32,
-      heroWordDelay: 0.08,
-      heroWordStagger: 0.08,
-      projectCardDuration: 0.28,
-      projectCardStagger: 0.08,
+      heroWordDuration: 0.22,
+      heroWordDelay: 0.04,
+      heroWordStagger: 0.045,
+      projectCardDuration: 0.2,
+      projectCardStagger: 0.04,
     },
-    responsiveMorph: { widthRatio: 0.66, durationRatio: 0.46 },
-    successTextDelay: 0.03,
+    responsiveMorph: { widthRatio: 0.7, durationRatio: 0.45 },
+    successTextDelay: 0.02,
     expand: {
-      notifyAt: 0.4,
-      successFadeAt: 0.2,
-      successFadeDuration: 0.16,
+      notifyAt: 0.36,
+      successFadeAt: 0.12,
+      successFadeDuration: 0.13,
       coverFadeAt: 0.7,
-      coverFadeDurationRatio: 0.3,
+      coverFadeDurationRatio: 0.27,
     },
   },
   desktop: {
-    total: 6.5,
-    workspace: { at: 0, duration: 0.62 },
-    typing: { at: 0.42, charsPerSecond: 180, linePause: 0.035, fileGap: 0.08 },
+    total: 4.45,
+    workspace: { at: 0, duration: 0.38 },
+    typing: { at: 0.24, charsPerSecond: 260, linePause: 0.018, fileGap: 0.04 },
     terminal: {
-      command: 0.62,
-      compiling: 1.42,
-      ready: 2.12,
-      hero: 3.42,
-      projectCard: 4.08,
-      responsive: 4.78,
+      command: 0.42,
+      compiling: 0.78,
+      ready: 1.18,
+      hero: 2.12,
+      projectCard: 2.5,
+      responsive: 2.85,
     },
     preview: {
-      navbar: { at: 2.12, duration: 0.44 },
-      hero: { at: 2.56, duration: 0.62 },
-      projects: { at: 4.02, duration: 0.58 },
+      navbar: { at: 1.18, duration: 0.3 },
+      hero: { at: 1.5, duration: 0.42 },
+      projects: { at: 2.42, duration: 0.38 },
     },
-    responsive: { at: 4.66, duration: 0.62 },
-    panelExit: { at: 5.22, duration: 0.48 },
-    success: { at: 5.58, duration: 0.3 },
-    readyGate: 5.96,
-    expand: { at: 5.96, duration: 0.54 },
+    responsive: { at: 2.9, duration: 0.4 },
+    panelExit: { at: 3.28, duration: 0.32 },
+    success: { at: 3.58, duration: 0.22 },
+    readyGate: 3.86,
+    expand: { at: 3.86, duration: 0.47 },
   },
   mobile: {
-    total: 5,
-    workspace: { at: 0, duration: 0.46 },
-    typing: { at: 0.24, charsPerSecond: 220, linePause: 0.02, fileGap: 0.04 },
+    total: 3.85,
+    workspace: { at: 0, duration: 0.3 },
+    typing: { at: 0.18, charsPerSecond: 300, linePause: 0.015, fileGap: 0.03 },
     terminal: {
-      command: 0.52,
-      compiling: 0.98,
-      ready: 1.46,
-      hero: 2.88,
-      projectCard: 3.34,
-      responsive: 3.76,
+      command: 0.34,
+      compiling: 0.62,
+      ready: 0.96,
+      hero: 1.72,
+      projectCard: 2.08,
+      responsive: 2.38,
     },
     preview: {
-      navbar: { at: 1.46, duration: 0.36 },
-      hero: { at: 1.84, duration: 0.56 },
-      projects: { at: 3.25, duration: 0.46 },
+      navbar: { at: 0.96, duration: 0.24 },
+      hero: { at: 1.18, duration: 0.34 },
+      projects: { at: 2.02, duration: 0.3 },
     },
     responsive: null,
-    panelExit: { at: 3.76, duration: 0.4 },
-    success: { at: 4.08, duration: 0.28 },
-    readyGate: 4.43,
-    expand: { at: 4.43, duration: 0.57 },
+    panelExit: { at: 2.42, duration: 0.3 },
+    success: { at: 2.7, duration: 0.2 },
+    readyGate: 2.92,
+    expand: { at: 2.92, duration: 0.48 },
   },
 } as const;
 
@@ -88,15 +88,15 @@ const TIMING = {
 const BUILD_FILES: BuildFile[] = [
   {
     name: "HeroSection.tsx",
-    code: `export function HeroSection() {\n  return (\n    <section className="hero-section">\n      <h1>Think. Code. Ship.</h1>\n      <p>Turning ideas into digital things.</p>\n    </section>\n  );\n}`,
+    code: `export function HeroSection() {\n  return <h1>Think. Code. Ship.</h1>;\n}`,
   },
   {
     name: "ProjectsSection.tsx",
-    code: `export function ProjectsSection() {\n  return projects.map((project) => (\n    <article className="project-card">\n      <img src={project.image} alt={project.title} />\n      <h2>{project.title}</h2>\n    </article>\n  ));\n}`,
+    code: `export function ProjectsSection() {\n  return projects.map((project) => <ProjectCard key={project.slug} />);\n}`,
   },
   {
     name: "globals.css",
-    code: `:root {\n  --paper: #EDEBE3;\n  --ink: #171D18;\n  --accent: #A7C96B;\n  --dark: #111412;\n}\n@media (max-width: 640px) {\n  .projects-grid { grid-template-columns: 1fr; }\n}`,
+    code: `:root {\n  --paper: #EDEBE3;\n  --ink: #171D18;\n  --accent: #A7C96B;\n}`,
   },
 ];
 
@@ -171,73 +171,21 @@ function countTypedCharacters(schedule: number[], elapsed: number): number {
 function createReadinessGate(maxWaitSeconds: number): { promise: Promise<void>; cancel: () => void } {
   let settled = false;
   let timeoutId = 0;
-  const cleanup: Array<() => void> = [];
 
   const promise = new Promise<void>((resolve) => {
     const finish = () => {
       if (settled) return;
       settled = true;
       window.clearTimeout(timeoutId);
-      cleanup.forEach((remove) => remove());
       resolve();
     };
 
+    // Hydration has completed before this effect runs. Wait briefly for fonts,
+    // but never hold the page behind the full window load or every hero image.
     timeoutId = window.setTimeout(finish, maxWaitSeconds * 1000);
-
-    const loadReady = new Promise<void>((resolveLoad) => {
-      if (document.readyState === "complete") {
-        resolveLoad();
-        return;
-      }
-
-      const onLoad = () => resolveLoad();
-      window.addEventListener("load", onLoad, { once: true });
-      cleanup.push(() => window.removeEventListener("load", onLoad));
-    });
-
-    const heroImages = Array.from(document.querySelectorAll<HTMLImageElement>(".hero-section img"));
-    const imagesReady = Promise.all(
-      heroImages.map(
-        (image) =>
-          new Promise<void>((resolveImage) => {
-            let imageSettled = false;
-            const finishImage = () => {
-              if (imageSettled) return;
-              imageSettled = true;
-              image.removeEventListener("load", onImageReady);
-              image.removeEventListener("error", finishImage);
-              resolveImage();
-            };
-            const onImageReady = () => {
-              if (image.naturalWidth > 0 && typeof image.decode === "function") {
-                image.decode().then(finishImage, finishImage);
-              } else {
-                finishImage();
-              }
-            };
-
-            if (image.complete) {
-              onImageReady();
-              return;
-            }
-
-            image.addEventListener("load", onImageReady, { once: true });
-            image.addEventListener("error", finishImage, { once: true });
-            cleanup.push(() => {
-              image.removeEventListener("load", onImageReady);
-              image.removeEventListener("error", finishImage);
-            });
-          }),
-      ),
-    );
-
-    const fontsReady = document.fonts?.ready
-      ? document.fonts.ready.then(() => undefined, () => undefined)
-      : Promise.resolve();
-
-    // The gate is created from this hydrated client effect, so this resolved
-    // promise explicitly represents the hydration part of the readiness check.
-    Promise.all([Promise.resolve(), fontsReady, loadReady, imagesReady]).then(finish, finish);
+    const fontsReady = document.fonts?.ready;
+    if (fontsReady) fontsReady.then(finish, finish);
+    else finish();
   });
 
   return {
@@ -246,7 +194,6 @@ function createReadinessGate(maxWaitSeconds: number): { promise: Promise<void>; 
       if (settled) return;
       settled = true;
       window.clearTimeout(timeoutId);
-      cleanup.forEach((remove) => remove());
     },
   };
 }

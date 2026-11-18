@@ -33,12 +33,13 @@ export function ProjectsSection() {
         onPointerLeave={() => cursorScale.set(0)}
       >
         {projects.map((project, index) => {
+          const isFeatured = project.slug === "amaantrader";
           return (
           <motion.article
-            className={`project-card project-card-${index + 1}`}
+            className={`project-card project-card-${index + 1}${isFeatured ? " project-card-featured" : ""}`}
             key={project.slug}
-            whileHover={shouldReduceMotion ? undefined : { y: -7 }}
-            transition={shouldReduceMotion ? { duration: 0 } : { type: "spring", stiffness: 280, damping: 24 }}
+            whileHover={shouldReduceMotion ? undefined : { y: -4 }}
+            transition={shouldReduceMotion ? { duration: 0 } : { type: "spring", stiffness: 360, damping: 28 }}
             onHoverStart={() => { if (!shouldReduceMotion) cursorScale.set(1); }}
             onHoverEnd={() => cursorScale.set(0)}
           >
@@ -52,8 +53,11 @@ export function ProjectsSection() {
                 <BrowserWindow
                   src={project.image}
                   alt={project.imageAlt}
-                  sizes="(max-width: 640px) 100vw, (max-width: 900px) 46vw, 30vw"
+                  sizes={isFeatured
+                    ? "(max-width: 640px) 100vw, (max-width: 900px) 84vw, 76vw"
+                    : "(max-width: 640px) 100vw, (max-width: 900px) 48vw, 42vw"}
                   address={project.liveUrl || "Local project preview"}
+                  priority={isFeatured}
                   className="project-browser-window"
                 />
                 <span className="project-image-index">{project.number} / {projectCount}</span>

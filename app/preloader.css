@@ -24,7 +24,7 @@
   font-family: var(--font-inter), Inter, Arial, sans-serif;
   pointer-events: auto;
   touch-action: none;
-  animation: pl-css-failsafe 14s steps(1, end) forwards;
+  animation: pl-css-failsafe 8.5s steps(1, end) forwards;
 }
 
 .pl-cover-inner {
@@ -394,10 +394,12 @@ html[data-intro="playing"] .pl-success { opacity: 0; visibility: hidden; }
   .pl-topline-meta { display: none; }
   .pl-live-status { font-size: 8px; }
   .pl-workspace {
+    inset: max(62px, calc(50% - 270px)) 12px auto;
+    height: min(540px, calc(100svh - 100px));
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: minmax(0, 1fr) 106px 38px;
-    gap: 7px;
-    padding: calc(54px + env(safe-area-inset-top)) 10px calc(10px + env(safe-area-inset-bottom));
+    grid-template-rows: minmax(0, 1fr) 78px 30px;
+    gap: 6px;
+    padding: 0;
   }
   .pl-preview-panel { grid-column: 1; grid-row: 1; border-radius: 9px; }
   .pl-editor-panel { grid-column: 1; grid-row: 2; border-radius: 9px; }
@@ -423,8 +425,8 @@ html[data-intro="playing"] .pl-success { opacity: 0; visibility: hidden; }
   .pl-availability i { width: 6px; height: 6px; flex-basis: 6px; }
   .pl-menu-button { min-height: 22px; gap: 6px; padding: 0; border: 0; background: transparent; font-size: 8px; }
   .pl-menu-button i { width: 16px; gap: 4px; }
-  .pl-preview-hero { margin-top: 8px; }
-  .pl-preview-title { font-size: clamp(41px, 12.5cqw, 60px); line-height: .75; }
+  .pl-preview-hero { margin-top: 13px; }
+  .pl-preview-title { font-size: clamp(42px, 12.8cqw, 62px); line-height: .82; gap: 2px; letter-spacing: -.075em; }
   .pl-preview-hero > p { max-width: 230px; margin-top: 5px; font-size: 8px; }
   .pl-preview-projects { padding-top: 7px; }
   .pl-preview-project-heading { margin-bottom: 4px; }
@@ -440,9 +442,13 @@ html[data-intro="playing"] .pl-success { opacity: 0; visibility: hidden; }
 }
 
 @media (max-width: 639px) and (max-height: 700px) {
-  .pl-workspace { grid-template-rows: minmax(0, 1fr) 86px 32px; }
-  .pl-preview-title { font-size: 40px; }
-  .pl-preview-hero { margin-top: 5px; }
+  .pl-workspace {
+    inset: max(58px, calc(50% - 250px)) 10px auto;
+    height: min(500px, calc(100svh - 92px));
+    grid-template-rows: minmax(0, 1fr) 68px 28px;
+  }
+  .pl-preview-title { font-size: clamp(38px, 11.5cqw, 54px); }
+  .pl-preview-hero { margin-top: 8px; }
   .pl-preview-projects { padding-top: 4px; }
   .pl-preview-card-image { aspect-ratio: 2.3; }
 }

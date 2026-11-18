@@ -1,108 +1,102 @@
 "use client";
 
-import { useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { Atom, Braces, Code2, Database, Layers3, Terminal, Wind, Zap } from "lucide-react";
+import {
+  Braces,
+  Code2,
+  Database,
+  GitBranch,
+  Layers3,
+  Monitor,
+  Server,
+  Terminal,
+  Workflow,
+} from "lucide-react";
 
-type Position = { x: number; y: number; rotate: number };
-
-const techStack = [
-  { name: "React", note: "UI", icon: Atom, className: "tech-react" },
-  { name: "Next.js", note: "FRAMEWORK", icon: Layers3, className: "tech-next" },
-  { name: "TypeScript", note: "TYPES", icon: Braces, className: "tech-typescript" },
-  { name: "Node.js", note: "RUNTIME", icon: Terminal, className: "tech-node" },
-  { name: "Tailwind", note: "CSS", icon: Wind, className: "tech-tailwind" },
-  { name: "GSAP", note: "MOTION", icon: Zap, className: "tech-gsap" },
-  { name: "Postgres", note: "DATA", icon: Database, className: "tech-postgres" },
-  { name: "JavaScript", note: "LOGIC", icon: Code2, className: "tech-js" },
+const skillGroups = [
+  {
+    number: "01",
+    title: "Frontend",
+    description: "Interfaces that feel clear, quick and considered.",
+    icon: Monitor,
+    skills: ["HTML5", "CSS3", "JavaScript", "TypeScript", "React", "Next.js", "Tailwind CSS"],
+  },
+  {
+    number: "02",
+    title: "Backend",
+    description: "Application logic, APIs and server-side workflows.",
+    icon: Server,
+    skills: ["Node.js", "REST APIs", "Prisma", "Vite", "API Integration"],
+  },
+  {
+    number: "03",
+    title: "Databases",
+    description: "Working with structured data and persistence.",
+    icon: Database,
+    skills: ["PostgreSQL", "SQL", "Prisma ORM", "MongoDB"],
+    note: "MongoDB · currently learning",
+  },
+  {
+    number: "04",
+    title: "Programming & Tools",
+    description: "The languages and tools behind the build.",
+    icon: Code2,
+    skills: ["JavaScript", "TypeScript", "Python", "Bash", "Git", "GitHub", "Linux / Kali", "GSAP", "Framer Motion"],
+  },
 ];
 
-const cleanPositions: Position[] = [-3, 2, -1, 3, 2, -2, 1, -3].map((rotate) => ({ x: 0, y: 0, rotate }));
-
 export function PlaygroundSection() {
-  const playgroundRef = useRef<HTMLDivElement>(null);
-  const [positions, setPositions] = useState<Position[]>(cleanPositions);
-  const [resetKey, setResetKey] = useState(0);
-  const shouldReduceMotion = useReducedMotion();
-
-  const scatter = () => {
-    const bounds = playgroundRef.current?.getBoundingClientRect();
-    const spreadX = Math.min(120, (bounds?.width ?? 800) * 0.12);
-    const spreadY = Math.min(85, (bounds?.height ?? 300) * 0.2);
-    setPositions(techStack.map(() => ({
-      x: Math.round((Math.random() * 2 - 1) * spreadX),
-      y: Math.round((Math.random() * 2 - 1) * spreadY),
-      rotate: Math.round((Math.random() * 2 - 1) * 24),
-    })));
-  };
-
-  const reset = () => {
-    setPositions(cleanPositions.map((position) => ({ ...position })));
-    setResetKey((current) => current + 1);
-  };
+  const reduceMotion = useReducedMotion();
 
   return (
-    <section className="section playground-section" id="playground">
+    <section className="section playground-section" id="playground" aria-labelledby="stack-title">
       <div className="section-heading">
         <span className="section-number">03</span>
-        <h2>The fun part<span className="accent-dot">.</span></h2>
-        <span className="section-heading-note">A VERY SCIENTIFIC SKILLS TEST</span>
+        <h2 id="stack-title">Tools of the trade<span className="accent-dot">.</span></h2>
+        <span className="section-heading-note">A PRACTICAL STACK / ALWAYS LEARNING</span>
       </div>
 
-      <div className="playground-intro">
-        <h3>I sweat the details.<br /><span>Your turn, drag something.</span></h3>
-        <p>These are a few of the tools I reach for. They behave better than I do before coffee.</p>
+      <div className="playground-intro stack-intro">
+        <h3>Built across<br /><span>the stack.</span></h3>
+        <p>From the first interface detail to the data behind it — here are the technologies I work with and keep exploring.</p>
       </div>
 
-      <div className="tech-playground" ref={playgroundRef} role="group" aria-label="Draggable technology skills">
-        {techStack.map((item, index) => {
-          const Icon = item.icon;
+      <div className="stack-grid">
+        {skillGroups.map((group, index) => {
+          const Icon = group.icon;
           return (
-            <motion.div
-              key={`${item.name}-${resetKey}`}
-              className={`tech-chip ${item.className}`}
-              role="group"
-              tabIndex={0}
-              aria-roledescription="draggable technology badge"
-              aria-label={`${item.name}. Use arrow keys to move, Home to reset.`}
-              onKeyDown={(event) => {
-                const step = event.shiftKey ? 30 : 12;
-                if (event.key === "ArrowLeft" || event.key === "ArrowRight" || event.key === "ArrowUp" || event.key === "ArrowDown") {
-                  event.preventDefault();
-                  setPositions((current) => current.map((position, positionIndex) => positionIndex !== index ? position : {
-                    ...position,
-                    x: position.x + (event.key === "ArrowLeft" ? -step : event.key === "ArrowRight" ? step : 0),
-                    y: position.y + (event.key === "ArrowUp" ? -step : event.key === "ArrowDown" ? step : 0),
-                  }));
-                } else if (event.key === "Home") {
-                  event.preventDefault();
-                  setPositions((current) => current.map((position, positionIndex) => positionIndex === index ? { ...cleanPositions[index] } : position));
-                }
-              }}
-              drag
-              dragConstraints={playgroundRef}
-              dragMomentum
-              dragElastic={0.82}
-              dragTransition={{ bounceStiffness: 330, bounceDamping: 13 }}
-              animate={positions[index]}
-              transition={shouldReduceMotion ? { duration: 0 } : { type: "spring", stiffness: 165, damping: 13, mass: 0.8 }}
-              whileDrag={{ scale: shouldReduceMotion ? 1 : 1.08, zIndex: 20, cursor: "grabbing" }}
+            <motion.article
+              className="stack-card"
+              key={group.number}
+              initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+              whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.18 }}
+              transition={reduceMotion ? { duration: 0 } : { duration: 0.42, delay: index * 0.055, ease: "easeOut" }}
             >
-              <Icon size={19} strokeWidth={1.7} aria-hidden="true" />
-              <span className="tech-chip-name">{item.name}</span>
-              <span className="tech-chip-note">{item.note}</span>
-              <span className="sr-only">Drag with a pointer or touch, or use the arrow keys to move this badge. Press Home to reset it.</span>
-            </motion.div>
+              <div className="stack-card-top">
+                <span className="stack-card-number">{group.number} / 04</span>
+                <span className="stack-card-icon"><Icon size={20} strokeWidth={1.65} aria-hidden="true" /></span>
+              </div>
+              <h3>{group.title}</h3>
+              <p className="stack-card-description">{group.description}</p>
+              <div className="stack-tags" aria-label={`${group.title} technologies`}>
+                {group.skills.map((skill) => (
+                  <span className={skill === "MongoDB" ? "stack-tag stack-tag-learning" : "stack-tag"} key={skill}>
+                    {skill}
+                    {skill === "MongoDB" ? <span className="stack-learning-dot" aria-hidden="true" /> : null}
+                  </span>
+                ))}
+              </div>
+              {group.note ? <p className="stack-card-note"><span />{group.note}</p> : <span className="stack-card-footer"><Workflow size={13} /> BUILD · TEST · REFINE</span>}
+            </motion.article>
           );
         })}
       </div>
-
-      <div className="playground-controls">
-        <span>GO ON. THEY&apos;RE DRAGGABLE.</span>
-        <div className="playground-buttons">
-          <button type="button" className="button button-dark" onClick={scatter}>Mess it up <span>↗</span></button>
-          <button type="button" className="button button-light" onClick={reset}>Reset <span>↺</span></button>
-        </div>
+      <div className="stack-footnote">
+        <span><Braces size={15} /> PRACTICE OVER HYPE</span>
+        <span><GitBranch size={15} /> LEARNING IN PUBLIC</span>
+        <span><Terminal size={15} /> SHIP SOMETHING USEFUL</span>
+        <span className="sr-only">Programming and development technologies</span>
       </div>
     </section>
   );

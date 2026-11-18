@@ -28,7 +28,7 @@ function ImageStrip({ reverse = false, className = "" }: { reverse?: boolean; cl
               alt={image.alt}
               sizes="(max-width: 640px) 46vw, 34vw"
               compact
-              priority={index < 3}
+              priority={index === 0}
               address="Ayaan Khan / Selected work"
             />
           </span>
@@ -55,8 +55,8 @@ export function HeroSection() {
           yPercent: 0,
           rotate: 0,
           opacity: 1,
-          duration: 1.1,
-          stagger: 0.16,
+          duration: 0.72,
+          stagger: 0.09,
           ease: "power4.out",
           clearProps: "transform,opacity",
         },
@@ -69,7 +69,7 @@ export function HeroSection() {
           trigger: root,
           start: "top top",
           end: "bottom top",
-          scrub: 1.1,
+          scrub: 0.65,
         },
       });
 
@@ -80,7 +80,7 @@ export function HeroSection() {
           trigger: root,
           start: "top top",
           end: "bottom top",
-          scrub: 1.4,
+          scrub: 0.7,
         },
       });
 
@@ -92,7 +92,7 @@ export function HeroSection() {
           trigger: root,
           start: "top top",
           end: "bottom top",
-          scrub: 1,
+          scrub: 0.65,
         },
       });
     }, root);
