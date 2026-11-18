@@ -10,7 +10,11 @@ export function ContactSection() {
         <span>THE NEXT GOOD THING STARTS WITH A HELLO.</span>
       </div>
 
-      <h2>Say hi.<br />Bring the idea.<br /><span>I&apos;ll bring the code.</span></h2>
+      <h2>
+        Say hi.<br />
+        <span className="contact-bring-line"><span className="contact-bring-word">Bring</span> the idea.</span><br />
+        <span className="contact-accent-line">I&apos;ll <span className="contact-bring-word">bring</span> the code.</span>
+      </h2>
 
       <div className="contact-bottom">
         <div className="contact-email-block">
