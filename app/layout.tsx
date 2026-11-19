@@ -16,6 +16,21 @@ const inter = Inter({
   display: "swap",
 });
 
+const themeBootScript = `
+(function () {
+  var root = document.documentElement;
+  var allowed = ["classic", "dark", "forest"];
+  var theme = "dark";
+  try {
+    var saved = window.localStorage.getItem("theme");
+    if (allowed.indexOf(saved) !== -1) theme = saved;
+  } catch {
+    theme = "dark";
+  }
+  root.dataset.theme = theme;
+})();
+`;
+
 const introBootScript = `
 (function () {
   var root = document.documentElement;
@@ -54,14 +69,14 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#EDEBE3",
-  colorScheme: "light",
+  colorScheme: "light dark",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" data-theme="dark" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
         <script dangerouslySetInnerHTML={{ __html: introBootScript }} />
       </head>
       <body className={inter.variable}>

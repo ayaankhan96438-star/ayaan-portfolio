@@ -6,6 +6,7 @@ import { ArrowUpRight, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { siteConfig } from "@/lib/site";
 import { useLenis } from "@/components/SmoothScrollProvider";
+import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 
 const menuItems = [
   { label: "Home", href: "/#home", number: "01" },
@@ -93,16 +94,19 @@ export function Navbar() {
           <span className="nav-time"><span className="nav-time-label">LOCAL TIME</span> {localTime}</span>
         </div>
 
-        <button
-          type="button"
-          className="menu-trigger"
-          aria-expanded={menuOpen}
-          aria-controls="fullscreen-menu"
-          onClick={() => setMenuOpen(true)}
-          ref={menuTriggerRef}
-        >
-          Menu <span className="menu-lines" aria-hidden="true"><i /><i /></span>
-        </button>
+        <div className="nav-actions">
+          <ThemeSwitcher variant="header" />
+          <button
+            type="button"
+            className="menu-trigger"
+            aria-expanded={menuOpen}
+            aria-controls="fullscreen-menu"
+            onClick={() => setMenuOpen(true)}
+            ref={menuTriggerRef}
+          >
+            Menu <span className="menu-lines" aria-hidden="true"><i /><i /></span>
+          </button>
+        </div>
       </header>
 
       <AnimatePresence>
@@ -122,9 +126,12 @@ export function Navbar() {
               <Link href="/#home" className="nav-logo" onClick={() => setMenuOpen(false)}>
                 ayaan<span className="logo-period">.</span>
               </Link>
-              <button type="button" className="menu-close" onClick={() => setMenuOpen(false)} aria-label="Close menu">
-                Close <X size={19} strokeWidth={1.6} />
-              </button>
+              <div className="menu-overlay-top-actions">
+                <ThemeSwitcher variant="menu" />
+                <button type="button" className="menu-close" onClick={() => setMenuOpen(false)} aria-label="Close menu">
+                  Close <X size={19} strokeWidth={1.6} />
+                </button>
+              </div>
             </div>
 
             <nav className="menu-links" aria-label="Main navigation">

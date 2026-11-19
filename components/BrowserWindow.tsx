@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ThemeArtwork } from "@/components/ThemeArtwork";
 
 type BrowserWindowProps = {
   src: string;
@@ -35,7 +36,11 @@ export function BrowserWindow({
         <span className="browser-window-actions"><i /><i /><i /></span>
       </span>
       <span className="browser-window-viewport">
-        <Image src={src} alt={alt} fill sizes={sizes} priority={priority} />
+        {src.startsWith("/images/") ? (
+          <ThemeArtwork src={src} alt={alt} />
+        ) : (
+          <Image src={src} alt={alt} fill sizes={sizes} priority={priority} />
+        )}
       </span>
     </span>
   );

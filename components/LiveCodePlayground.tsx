@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Code2, Eye, RotateCcw, Sparkles } from "lucide-react";
 
 type CodeTab = "html" | "css" | "js";
@@ -21,22 +21,22 @@ body {
   display: grid;
   place-items: center;
   padding: 28px;
-  color: #eff2e8;
+  color: var(--text);
   font-family: Inter, Arial, sans-serif;
   background:
-    radial-gradient(circle at 80% 15%, #3b5632 0, transparent 38%),
-    #121914;
+    radial-gradient(circle at 80% 15%, color-mix(in srgb, var(--accent) 18%, transparent) 0, transparent 38%),
+    var(--bg);
 }
 .demo-card {
   width: min(100%, 430px);
   padding: clamp(28px, 7vw, 48px);
-  border: 1px solid #52634b;
+  border: 1px solid var(--border);
   border-radius: 18px;
-  background: linear-gradient(145deg, #202d23, #151d18);
-  box-shadow: 0 28px 80px #0008;
+  background: linear-gradient(145deg, var(--surface), color-mix(in srgb, var(--bg) 86%, var(--text) 14%));
+  box-shadow: 0 28px 80px color-mix(in srgb, var(--shadow-color) 22%, transparent);
 }
 .demo-kicker {
-  color: #b9da7a;
+  color: var(--accent);
   font-size: 10px;
   letter-spacing: .16em;
 }
@@ -46,20 +46,20 @@ h1 {
   line-height: .88;
   letter-spacing: -.08em;
 }
-h1 em { color: #b9da7a; font-style: normal; }
-p { color: #a6b1a4; line-height: 1.7; font-size: 14px; }
+h1 em { color: var(--accent); font-style: normal; }
+p { color: var(--muted); line-height: 1.7; font-size: 14px; }
 .demo-button {
   margin-top: 22px;
   padding: 14px 17px;
-  border: 1px solid #b9da7a;
+  border: 1px solid var(--accent);
   border-radius: 7px;
-  color: #11180f;
-  background: #b9da7a;
+  color: var(--accent-text);
+  background: var(--accent);
   font: 700 12px Inter, Arial, sans-serif;
   cursor: pointer;
   transition: transform .2s ease, background .2s ease;
 }
-.demo-button:hover { transform: translateY(-3px); background: #d3efa0; }
+.demo-button:hover { transform: translateY(-3px); background: color-mix(in srgb, var(--accent) 78%, var(--surface) 22%); }
 .demo-button span { margin-left: 18px; }`;
 
 const starterJs = `const button = document.querySelector("[data-count]");
@@ -82,6 +82,25 @@ export function LiveCodePlayground() {
   const [css, setCss] = useState(starterCss);
   const [js, setJs] = useState(starterJs);
   const [runCount, setRunCount] = useState(1);
+  const [themeCssVars, setThemeCssVars] = useState("");
+
+  useEffect(() => {
+    const syncThemeTokens = () => {
+      const styles = window.getComputedStyle(document.documentElement);
+      const names = [
+        "--bg", "--surface", "--card", "--text", "--muted", "--accent",
+        "--accent-text", "--border", "--accent-soft", "--accent-strong", "--shadow-color",
+      ];
+      const declarations = names
+        .map((name) => `${name}: ${styles.getPropertyValue(name).trim()};`)
+        .filter((declaration) => !declaration.endsWith(": ;"));
+      setThemeCssVars(`:root { color-scheme: ${styles.colorScheme}; ${declarations.join(" ")} }`);
+    };
+
+    syncThemeTokens();
+    window.addEventListener("portfolio:themechange", syncThemeTokens);
+    return () => window.removeEventListener("portfolio:themechange", syncThemeTokens);
+  }, []);
 
   const currentCode = activeTab === "html" ? html : activeTab === "css" ? css : js;
   const setCurrentCode = activeTab === "html" ? setHtml : activeTab === "css" ? setCss : setJs;
@@ -91,7 +110,11 @@ export function LiveCodePlayground() {
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>${css}</style>
+  <style>
+    :root { color-scheme: dark; --bg: Canvas; --surface: Canvas; --card: Canvas; --text: CanvasText; --muted: GrayText; --accent: AccentColor; --accent-text: AccentColorText; --border: color-mix(in srgb, CanvasText 24%, transparent); --accent-soft: color-mix(in srgb, AccentColor 18%, Canvas); --accent-strong: AccentColor; --shadow-color: CanvasText; }
+    ${themeCssVars}
+    ${css}
+  </style>
 </head>
 <body>
 ${html}
@@ -100,7 +123,7 @@ ${js}
 <\/script>
 </body>
 </html>`,
-    [html, css, js],
+    [html, css, js, themeCssVars],
   );
 
   const resetCode = () => {
