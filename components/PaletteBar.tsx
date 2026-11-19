@@ -45,22 +45,18 @@ function paletteById(id: string): Palette | undefined {
 
 function saveState(id: string, mode: Mode, vars: ThemeVariables | null): void {
   try {
-    if (vars) {
-      window.localStorage.setItem("palette-vars", JSON.stringify({ vars, mode }));
-      window.localStorage.setItem("palette-state", JSON.stringify({ id, mode }));
-    } else {
-      window.localStorage.removeItem("palette-vars");
-      window.localStorage.setItem("palette-state", JSON.stringify({ id, mode }));
-    }
+    if (vars) window.localStorage.setItem("palette-vars", JSON.stringify({ vars, mode }));
+    else window.localStorage.removeItem("palette-vars");
+    window.localStorage.setItem("palette-state", JSON.stringify({ id, mode }));
   } catch {
-    // The palette tool still works for this session when storage is unavailable.
+    // The selector remains usable for this session when storage is unavailable.
   }
 }
 
 export function PaletteBar() {
   const [selectedId, setSelectedId] = useState("0");
   const [mode, setMode] = useState<Mode>(DEFAULT_STATE.mode);
-  const [hidden, setHidden] = useState(false);
+  const [open, setOpen] = useState(false);
   const [ready, setReady] = useState(false);
 
   const selected = useMemo(
@@ -124,94 +120,87 @@ export function PaletteBar() {
     saveState(selectedId, nextMode, vars);
   }
 
-  if (hidden) {
-    return (
+  return (
+    <div className="palette-control" aria-label="Portfolio color selector">
       <button
         type="button"
-        className="palette-reopen"
-        onClick={() => setHidden(false)}
-        aria-label={`Show theme lab, selected palette ${selectedId}`}
-        title={`THEMES ${selectedId}`}
+        className="palette-trigger"
+        aria-expanded={open}
+        aria-haspopup="dialog"
+        aria-label={`Choose site colors. Current palette ${selectedId}`}
+        title={`Color palette ${selectedId}`}
+        onClick={() => setOpen((current) => !current)}
       >
-        THEMES <span>{selectedId}</span>
+        <span className="palette-trigger__dot" style={{ backgroundColor: selected.swatches[2]?.hex ?? "#A7C96B" }} />
+        <span className="palette-trigger__label">COLOR</span>
+        <strong>{selectedId}</strong>
+        <span className={`palette-trigger__chevron${open ? " is-open" : ""}`} aria-hidden="true">⌄</span>
       </button>
-    );
-  }
 
-  return (
-    <aside className="palette-bar" aria-label="Theme palette testing tool">
-      <div className="palette-bar__header">
-        <div className="palette-bar__heading">THEME LAB — PICK A PALETTE</div>
+      {open && (
+        <section className="palette-popover" role="dialog" aria-label="Choose a color palette">
+          <header className="palette-popover__header">
+            <span>CHOOSE PALETTE</span>
+            <button type="button" className="palette-close" onClick={() => setOpen(false)} aria-label="Close color selector">×</button>
+          </header>
 
-        <div className="palette-bar__actions">
-          <div className="palette-mode" role="group" aria-label="Palette background mode">
-            <button
-              type="button"
-              className={`palette-mode__button${mode === "light" ? " is-active" : ""}`}
-              aria-pressed={mode === "light"}
-              onClick={() => selectMode("light")}
-              disabled={!ready}
-            >
-              Light bg
-            </button>
-            <button
-              type="button"
-              className={`palette-mode__button${mode === "dark" ? " is-active" : ""}`}
-              aria-pressed={mode === "dark"}
-              onClick={() => selectMode("dark")}
-              disabled={!ready}
-            >
-              Dark bg
-            </button>
-          </div>
-          <button type="button" className="palette-hide" onClick={() => setHidden(true)}>
-            Hide ✕
-          </button>
-        </div>
-      </div>
-
-      <div className="palette-options" aria-label="Available palettes">
-        {OPTIONS.map((option) => (
-          <button
-            type="button"
-            key={option.id}
-            className={`palette-chip${selectedId === option.id ? " is-selected" : ""}`}
-            aria-label={`Apply palette ${option.id}`}
-            aria-pressed={selectedId === option.id}
-            title={`Palette ${option.id}`}
-            onClick={() => selectPalette(option.id)}
-            disabled={!ready}
-          >
-            <span className="palette-chip__name">{option.id}</span>
-            <span className="palette-chip__swatches">
-              {option.swatches.map((swatch) => (
-                <span
-                  className="palette-swatch"
-                  key={swatch.id}
-                  style={{ backgroundColor: swatch.hex }}
-                  title={`${swatch.id} · ${swatch.hex}`}
-                  aria-label={`${swatch.id} ${swatch.hex}`}
-                >
-                  <span>{swatch.id}</span>
+          <div className="palette-options" aria-label="Available palettes">
+            {OPTIONS.map((option) => (
+              <button
+                type="button"
+                key={option.id}
+                className={`palette-option${selectedId === option.id ? " is-selected" : ""}`}
+                aria-label={`Apply palette ${option.id}`}
+                aria-pressed={selectedId === option.id}
+                title={`Palette ${option.id}`}
+                onClick={() => selectPalette(option.id)}
+                disabled={!ready}
+              >
+                <span className="palette-option__name">{option.id}</span>
+                <span className="palette-option__swatches">
+                  {option.swatches.map((swatch) => (
+                    <span
+                      className="palette-option__swatch"
+                      key={swatch.id}
+                      style={{ backgroundColor: swatch.hex }}
+                      title={`${swatch.id} · ${swatch.hex}`}
+                      aria-label={`${swatch.id} ${swatch.hex}`}
+                    />
+                  ))}
                 </span>
-              ))}
-            </span>
-          </button>
-        ))}
-      </div>
+              </button>
+            ))}
+          </div>
 
-      <div className="palette-detail" aria-live="polite">
-        <span className="palette-detail__title">PALETTE {selected.id}:</span>
-        <div className="palette-detail__colors">
-          {selected.swatches.map((swatch) => (
-            <span className="palette-detail__item" key={swatch.id}>
-              <span className="palette-detail__dot" style={{ backgroundColor: swatch.hex }} />
-              <span className="palette-detail__id">{swatch.id}</span>
-              <span className="palette-detail__hex">{swatch.hex}</span>
-            </span>
-          ))}
-        </div>
-      </div>
-    </aside>
+          <div className="palette-popover__footer">
+            <span className="palette-current">PALETTE {selected.id}</span>
+            <div className="palette-mode" role="group" aria-label="Palette background mode">
+              <button
+                type="button"
+                className={`palette-mode__button${mode === "light" ? " is-active" : ""}`}
+                aria-pressed={mode === "light"}
+                onClick={() => selectMode("light")}
+                disabled={!ready}
+              >Light</button>
+              <button
+                type="button"
+                className={`palette-mode__button${mode === "dark" ? " is-active" : ""}`}
+                aria-pressed={mode === "dark"}
+                onClick={() => selectMode("dark")}
+                disabled={!ready}
+              >Dark</button>
+            </div>
+          </div>
+          <div className="palette-detail" aria-live="polite">
+            {selected.swatches.map((swatch) => (
+              <span className="palette-detail__item" key={swatch.id} title={`${swatch.id} · ${swatch.hex}`}>
+                <i style={{ backgroundColor: swatch.hex }} />
+                {swatch.id}
+              </span>
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
   );
 }

@@ -1,9 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { projects } from "@/data/projects";
-import { ThemeArtwork } from "@/components/ThemeArtwork";
 import { useLenis } from "@/components/SmoothScrollProvider";
 
 type TerminalTone = "command" | "quiet" | "success";
@@ -96,7 +96,7 @@ const BUILD_FILES: BuildFile[] = [
   },
   {
     name: "globals.css",
-    code: `:root {\n  --bg: var(--theme-background, Canvas);\n  --text: var(--theme-text, CanvasText);\n  --accent: var(--theme-accent, AccentColor);\n}`,
+    code: `:root {\n  --paper: #EDEBE3;\n  --ink: #171D18;\n  --accent: #A7C96B;\n}`,
   },
 ];
 
@@ -679,10 +679,10 @@ export function Preloader() {
                       <span aria-hidden="true" />
                     </div>
                     <div className="pl-preview-grid">
-                      {projects.slice(0, 3).map((project) => (
+                      {projects.slice(0, 2).map((project) => (
                         <article className="pl-preview-card" key={project.slug}>
                           <div className="pl-preview-card-image">
-                            <ThemeArtwork src={project.image} alt={project.imageAlt} />
+                            <Image src={project.image} alt={project.imageAlt} fill priority fetchPriority="high" sizes="(max-width: 639px) 42vw, 24vw" />
                           </div>
                           <div className="pl-preview-card-copy">
                             <h3>{project.title}</h3>
