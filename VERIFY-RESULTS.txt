@@ -1,0 +1,9 @@
+Source validation performed on this patch:
+- TypeScript/TSX syntax transpile: passed for palettes.ts, PaletteBar.tsx, Preloader.tsx
+- Palette id set: original 0 + B, G, M only
+- Generated palette contrast (ink vs paper): B/G/M in Light and Dark modes all >= 9:1
+- Lowest generated palette contrast: G, Light = 11.17:1
+- Preloader preview explicitly renders projects.slice(0, 2)
+- Both preview images use Next Image priority and fetchPriority="high"
+- Preloader preview grid uses two equal columns
+- Full Next.js typecheck/build was not run in this isolated patch workspace; run both in the actual project after applying.

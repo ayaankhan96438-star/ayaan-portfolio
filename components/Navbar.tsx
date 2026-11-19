@@ -6,7 +6,6 @@ import { ArrowUpRight, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { siteConfig } from "@/lib/site";
 import { useLenis } from "@/components/SmoothScrollProvider";
-import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 import { PaletteBar } from "@/components/PaletteBar";
 
 const menuItems = [
@@ -97,7 +96,6 @@ export function Navbar() {
 
         <div className="nav-actions">
           <PaletteBar variant="header" />
-          <ThemeSwitcher variant="header" />
           <button
             type="button"
             className="menu-trigger"
@@ -130,7 +128,6 @@ export function Navbar() {
               </Link>
               <div className="menu-overlay-top-actions">
                 <PaletteBar variant="menu" />
-                <ThemeSwitcher variant="menu" />
                 <button type="button" className="menu-close" onClick={() => setMenuOpen(false)} aria-label="Close menu">
                   Close <X size={19} strokeWidth={1.6} />
                 </button>

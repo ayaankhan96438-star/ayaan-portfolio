@@ -69,9 +69,6 @@
   --syntax-function: #E8E7DE;
   --syntax-bright: #DCE6D8;
   --syntax-accent: #C4D7AC;
-  --theme-swatch-classic: #A7C96B;
-  --theme-swatch-dark: #C6FF3D;
-  --theme-swatch-forest: #1F6B45;
   --playground-glow: rgb(126 158 83 / 18%);
   --playground-label: #8D9A8D;
   --image-glaze: rgb(255 255 255 / 12%);
@@ -177,9 +174,6 @@
   --syntax-function: #E9E9DE;
   --syntax-bright: #E0E4D7;
   --syntax-accent: #D9F59A;
-  --theme-swatch-classic: #A7C96B;
-  --theme-swatch-dark: #C6FF3D;
-  --theme-swatch-forest: #1F6B45;
   --playground-glow: color-mix(in srgb, var(--accent) 18%, transparent);
   --playground-label: var(--muted);
   --image-glaze: color-mix(in srgb, var(--text) 12%, transparent);
@@ -282,9 +276,6 @@
   --syntax-function: #EFEBDD;
   --syntax-bright: #E6EDE0;
   --syntax-accent: #A8D8B9;
-  --theme-swatch-classic: #A7C96B;
-  --theme-swatch-dark: #C6FF3D;
-  --theme-swatch-forest: #1F6B45;
   --playground-glow: color-mix(in srgb, var(--accent) 18%, transparent);
   --playground-label: var(--muted);
   --image-glaze: color-mix(in srgb, var(--text) 12%, transparent);
@@ -438,55 +429,10 @@ img { display: block; max-width: 100%; }
 .menu-bottom a { font-size: 14px; }
 .menu-time { color: var(--accent-on-dark); font-size: 10px; letter-spacing: .1em; }
 
-/* Theme controls */
+/* Header action layout: the palette dots are the only color selector. */
 .nav-actions,
 .menu-overlay-top-actions { display: inline-flex; align-items: center; justify-self: end; gap: 17px; }
-.theme-switcher { display: inline-flex; align-items: center; gap: 5px; }
-.theme-switcher-button {
-  position: relative;
-  display: grid;
-  width: 26px;
-  height: 26px;
-  place-items: center;
-  padding: 0;
-  border: 1px solid transparent;
-  border-radius: 999px;
-  background: transparent;
-  cursor: pointer;
-  transition: border-color .4s, background-color .4s;
-}
-.theme-switcher-button[data-theme-option="classic"] { --theme-option-swatch: var(--theme-swatch-classic); }
-.theme-switcher-button[data-theme-option="dark"] { --theme-option-swatch: var(--theme-swatch-dark); }
-.theme-switcher-button[data-theme-option="forest"] { --theme-option-swatch: var(--theme-swatch-forest); }
-.theme-switcher-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--theme-option-swatch); box-shadow: 0 0 0 1px color-mix(in srgb, var(--text) 14%, transparent); }
-.theme-switcher-name {
-  position: absolute;
-  z-index: 3;
-  top: calc(100% + 8px);
-  left: 50%;
-  padding: 6px 8px;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  background: var(--surface);
-  color: var(--text);
-  font-size: 9px;
-  font-weight: 650;
-  letter-spacing: .03em;
-  opacity: 0;
-  pointer-events: none;
-  transform: translate(-50%, -3px);
-  transition: opacity .18s ease, transform .18s ease;
-  white-space: nowrap;
-}
-.theme-switcher-button:hover .theme-switcher-name,
-.theme-switcher-button:focus-visible .theme-switcher-name { opacity: 1; transform: translate(-50%, 0); }
-.theme-switcher-button[aria-pressed="true"] { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); }
-.theme-switcher-button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-.theme-switcher--menu { display: none; }
 .menu-overlay-top-actions { gap: 22px; }
-.menu-overlay .theme-switcher-button { border-color: color-mix(in srgb, var(--on-dark) 22%, transparent); }
-.menu-overlay .theme-switcher-button[aria-pressed="true"] { border-color: var(--accent-on-dark); background: color-mix(in srgb, var(--accent-on-dark) 12%, transparent); }
-.menu-overlay .theme-switcher-name { top: auto; bottom: calc(100% + 8px); background: var(--dark-panel); color: var(--on-dark); border-color: var(--inverse-border); }
 
 /* Hero */
 .hero-section {
@@ -723,8 +669,6 @@ img { display: block; max-width: 100%; }
 @media (max-width: 640px) {
   :root { --gutter: 21px; }
   .site-nav { grid-template-columns: auto 1fr auto; padding-top: 19px; }
-  .theme-switcher--header { display: none; }
-  .theme-switcher--menu { display: inline-flex; }
   .menu-overlay-top-actions { gap: 12px; }
   .nav-logo { font-size: 21px; }
   .nav-meta { justify-content: end; margin-right: 16px; }
