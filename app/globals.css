@@ -494,7 +494,8 @@ img { display: block; max-width: 100%; }
   margin: 0;
   font-size: clamp(68px, 9.2vw, 138px);
   font-weight: 850;
-  line-height: .79;
+  line-height: .88;
+  row-gap: .03em;
   letter-spacing: -.078em;
   font-kerning: normal;
 }
@@ -964,7 +965,7 @@ img { display: block; max-width: 100%; }
   .hero-layout { grid-template-columns: 1fr; gap: 22px; padding: 34px var(--gutter) 26px; }
   .hero-copy { padding: 0; }
   .hero-kicker { margin-bottom: 22px; font-size: 8px; }
-  .hero-title { font-size: clamp(62px, 15.5vw, 92px); line-height: .84; letter-spacing: -.065em; }
+  .hero-title { font-size: clamp(62px, 15.5vw, 92px); line-height: .92; row-gap: .03em; letter-spacing: -.065em; }
   .hero-word-mask { padding: .04em .1em .12em 0; }
   .hero-description { max-width: 330px; margin-top: 19px; font-size: 12px; }
   .hero-cta-row { gap: 14px; margin-top: 20px; }

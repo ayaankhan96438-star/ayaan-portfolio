@@ -96,7 +96,7 @@ const BUILD_FILES: BuildFile[] = [
   },
   {
     name: "globals.css",
-    code: `:root {\n  --paper: #EDEBE3;\n  --ink: #171D18;\n  --accent: #A7C96B;\n}`,
+    code: `:root {\n  --paper: #EDEBE3;\n  --ink: #171D18;\n  --accent: var(--accent-strong);\n}`,
   },
 ];
 
