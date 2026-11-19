@@ -6,11 +6,14 @@ import { Preloader } from "@/components/Preloader";
 import { SmoothScrollProvider } from "@/components/SmoothScrollProvider";
 import { CursorEffects } from "@/components/CursorEffects";
 import { ScrollAnimations } from "@/components/ScrollAnimations";
+import { CommandPalette } from "@/components/CommandPalette";
+import { ScrollProgress } from "@/components/ScrollProgress";
 import { siteConfig, siteUrl } from "@/lib/site";
 import { palettes } from "@/data/palettes";
 import "./globals.css";
 import "./preloader.css";
 import "./palette.css";
+import "./features.css";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -228,8 +231,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       </head>
       <body className={inter.variable}>
         <SmoothScrollProvider>
+          <ScrollProgress />
           <Preloader />
           <CursorEffects />
+          <CommandPalette />
           <ScrollAnimations />
           <Navbar />
           {children}

@@ -87,7 +87,7 @@ export function ProjectsSection() {
                 <span className="project-year">{project.year}</span>
               </div>
               <div className="project-tags" aria-label="Technologies">
-                {project.stack.slice(0, 4).map((tag) => <span key={tag}>{tag}</span>)}
+                {project.stack.slice(0, 5).map((tag) => <span key={tag}>{tag}</span>)}
               </div>
             </Link>
             <div className="project-actions" aria-label={`${project.title} project links`}>
@@ -101,6 +101,9 @@ export function ProjectsSection() {
                   <Github size={14} aria-hidden="true" /><span>GitHub</span><ArrowUpRight size={14} aria-hidden="true" />
                 </a>
               ) : null}
+              <Link className="project-action project-action-details" href={`/work/${project.slug}`}>
+                <span>View details</span><ArrowUpRight size={14} aria-hidden="true" />
+              </Link>
             </div>
           </motion.article>
           );

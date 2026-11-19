@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUpRight, X } from "lucide-react";
+import { ArrowUpRight, Search, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { siteConfig } from "@/lib/site";
 import { useLenis } from "@/components/SmoothScrollProvider";
@@ -12,8 +12,11 @@ const menuItems = [
   { label: "Home", href: "/#home", number: "01" },
   { label: "About", href: "/#about", number: "02" },
   { label: "Selected work", href: "/#work", number: "03" },
-  { label: "Live Playground", href: "/playground", number: "04" },
-  { label: "Contact", href: "/#contact", number: "05" },
+  { label: "Skills", href: "/#playground", number: "04" },
+  { label: "Journey", href: "/#journey", number: "05" },
+  { label: "Terminal", href: "/#terminal", number: "06" },
+  { label: "Live Playground", href: "/playground", number: "07" },
+  { label: "Contact", href: "/#contact", number: "08" },
 ];
 
 export function Navbar() {
@@ -90,12 +93,20 @@ export function Navbar() {
         </Link>
 
         <div className="nav-meta">
-          <span className="availability"><span className="availability-dot" /> Available for work</span>
+          <span className="availability"><span className="availability-dot" /> Building &amp; learning</span>
           <span className="nav-time"><span className="nav-time-label">LOCAL TIME</span> {localTime}</span>
         </div>
 
         <div className="nav-actions">
           <PaletteBar variant="header" />
+          <button
+            type="button"
+            className="command-shortcut-trigger"
+            aria-label="Open command palette"
+            onClick={() => window.dispatchEvent(new Event("portfolio:command-open"))}
+          >
+            <Search size={14} aria-hidden="true" /><kbd>CTRL / ⌘ K</kbd>
+          </button>
           <button
             type="button"
             className="menu-trigger"

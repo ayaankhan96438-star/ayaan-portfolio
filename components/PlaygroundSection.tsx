@@ -6,44 +6,14 @@ import {
   Code2,
   Database,
   GitBranch,
-  Layers3,
   Monitor,
   Server,
   Terminal,
   Workflow,
 } from "lucide-react";
+import { skillGroups } from "@/data/skills";
 
-const skillGroups = [
-  {
-    number: "01",
-    title: "Frontend",
-    description: "Interfaces that feel clear, quick and considered.",
-    icon: Monitor,
-    skills: ["HTML5", "CSS3", "JavaScript", "TypeScript", "React", "Next.js", "Tailwind CSS"],
-  },
-  {
-    number: "02",
-    title: "Backend",
-    description: "Application logic, APIs and server-side workflows.",
-    icon: Server,
-    skills: ["Node.js", "REST APIs", "Prisma", "Vite", "API Integration"],
-  },
-  {
-    number: "03",
-    title: "Databases",
-    description: "Working with structured data and persistence.",
-    icon: Database,
-    skills: ["PostgreSQL", "SQL", "Prisma ORM", "MongoDB"],
-    note: "MongoDB · currently learning",
-  },
-  {
-    number: "04",
-    title: "Programming & Tools",
-    description: "The languages and tools behind the build.",
-    icon: Code2,
-    skills: ["JavaScript", "TypeScript", "Python", "Bash", "Git", "GitHub", "Linux / Kali", "GSAP", "Framer Motion"],
-  },
-];
+const groupIcons = [Monitor, Server, Database, Code2];
 
 export function PlaygroundSection() {
   const reduceMotion = useReducedMotion();
@@ -63,7 +33,7 @@ export function PlaygroundSection() {
 
       <div className="stack-grid">
         {skillGroups.map((group, index) => {
-          const Icon = group.icon;
+          const Icon = groupIcons[index] ?? Code2;
           return (
             <motion.article
               className="stack-card"

@@ -31,24 +31,37 @@ npm run build
 
 All site-wide identity and SEO values live in `lib/site.ts`:
 
-- `siteUrl`: currently blank because the production portfolio domain or Vercel URL has not been supplied yet. Set it before deployment.
+- `siteUrl`: `https://ayaan-portfolio-mu.vercel.app`. Update this when the production domain changes.
 - `email`: `ayaankhan96438@gmail.com`.
 - `github`: `https://github.com/ayaankhan96438-star`.
 - `linkedin`: `https://www.linkedin.com/in/ayaan-khan-b23a7a440`.
 
 `app/layout.tsx`, `app/robots.ts`, and `app/sitemap.ts` all read the domain from `siteConfig.siteUrl`.
 
-## Project links and screenshots
+## Projects and images
 
-Project details and live/repository links are in `data/projects.ts`.
+Project details, technology stacks, live demos, and GitHub repository links are maintained in `data/projects.ts`. The current portfolio showcases AmaanTrader and Book Exchange. Their project screenshots are stored in `public/images/photo1.png` and `public/images/photo2.png`.
 
-The current files in `public/images/` are temporary SVG artwork, not captured product screenshots. Replace them with your authentic screenshots using these names (PNG, JPG, or WebP are fine), then update the image paths in `data/projects.ts` if the extension changes:
+## Interactive features
 
-- `project-chess.png` — Royal Realms Chess screen (currently `project-chess.svg`)
-- `project-amaantrader.png` — AmaanTrader live storefront screenshot (currently `project-amaantrader.svg`)
-- `project-books.png` — Book Exchange live website screenshot (currently `project-books.svg`)
-- `hero-interface.png` — a strong wide screenshot for the hero strips (currently `hero-interface.svg`)
+- **Developer terminal:** `components/DeveloperTerminal.tsx` supports `help`, `about`, `projects`, `skills`, `contact`, and `clear`. It is a portfolio-only simulation; it never executes system commands. Command history is available with the Up/Down arrow keys.
+- **Project showcase:** cards use the real project data in `data/projects.ts`, with Live Demo, GitHub, and View Details actions. Detailed case studies live under `app/work/[slug]/page.tsx`.
+- **Journey timeline:** edit `data/journey.ts` to add verified learning, experience, achievement, and project milestones. Experience and achievement rows are intentionally editable placeholders until confirmed information is available.
+- **Command palette:** Ctrl+K (Windows/Linux) or Cmd+K (macOS) opens the searchable navigation overlay. Resume is shown as disabled because no resume file is present in `public/`.
+- **Contact form:** validates fields and prepares a `mailto:` message for the visitor's email application. It does not claim to send anything from the site. A real form endpoint can be configured later.
+- **Scroll progress:** a lightweight top progress line follows document scroll position.
 
-Project cards, case-study covers, and hero strips use the shared `BrowserWindow` component so screenshots sit inside a responsive browser mockup. Keep source screenshots around 1400px wide or larger where possible. When you replace an SVG with a PNG/WebP, update the matching image path in `data/projects.ts` or `components/HeroSection.tsx`.
+## Contact and configuration notes
 
-The final portfolio domain and authentic project screenshots still need to be supplied before deployment.
+- Email and social links are defined in `lib/site.ts`.
+- No email submission provider is configured; the form intentionally uses the visitor's email client.
+- No resume file was present in `public/`; add a real `public/resume.pdf` and set `resumeUrl: "/resume.pdf"` in `lib/site.ts` before enabling Resume downloads.
+- The uploaded source contains the 3D floating-laptop hero and its pointer interaction. It does not contain a separate 3D keyboard scene/component or keyboard asset, so this update leaves the uploaded hero intact rather than inventing a keyboard implementation.
+
+## Production checks
+
+```bash
+npm run typecheck
+npm run lint
+npm run build
+```

@@ -1,0 +1,32 @@
+PALETTE THEME VERIFICATION
+
+Strict TypeScript check:
+  tsc lib/palette.ts --strict --noEmit --target ES2020 --lib ES2020,DOM --moduleResolution node
+  PASS
+
+Contrast check (WCAG ink against paper):
+  B Light: 12.71:1
+  B Dark:  15.73:1
+  G Light: 11.17:1
+  G Dark:  15.12:1
+  M Light: 12.58:1
+  M Dark:  17.14:1
+  Minimum: 11.17:1 (G Light)
+  All six generated themes exceed 9:1.
+
+Runtime mapping test:
+  B/Dark applies --bg, --card, --text, --border, dark panels, syntax/playground aliases and stack heading.
+  0/Light clears generated inline variables and restores the Classic CSS theme.
+  PASS
+
+Inline boot script:
+  node --check on extracted palette boot script
+  PASS
+
+Alias completeness:
+  Runtime alias keys: 88
+  Early boot alias keys: 88
+  Missing or extra keys: 0
+  PASS
+
+A full Next.js build was not run in this isolated overlay workspace because it does not contain the user's full app or node_modules. Run npm run typecheck and npm run build after overlaying it in the project.
