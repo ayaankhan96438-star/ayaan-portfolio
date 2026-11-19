@@ -1,6 +1,5 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
 import {
   Braces,
   Code2,
@@ -16,33 +15,42 @@ import { skillGroups } from "@/data/skills";
 const groupIcons = [Monitor, Server, Database, Code2];
 
 export function PlaygroundSection() {
-  const reduceMotion = useReducedMotion();
-
   return (
-    <section className="section playground-section" id="playground" aria-labelledby="stack-title">
-      <div className="section-heading">
+    <section className="section playground-section" id="playground" aria-labelledby="stack-title" data-spotlight-zone>
+      <div className="section-heading" data-cinematic-reveal>
         <span className="section-number">03</span>
         <h2 id="stack-title">Tools of the trade<span className="accent-dot">.</span></h2>
         <span className="section-heading-note">A PRACTICAL STACK / ALWAYS LEARNING</span>
       </div>
 
-      <div className="playground-intro stack-intro">
+      <div className="playground-intro stack-intro" data-cinematic-reveal>
         <h3>Built across<br /><span>the stack.</span></h3>
         <p>From the first interface detail to the data behind it — here are the technologies I work with and keep exploring.</p>
       </div>
 
-      <div className="stack-grid">
+      <div className="stack-grid" data-cinematic-stagger>
         {skillGroups.map((group, index) => {
           const Icon = groupIcons[index] ?? Code2;
           return (
-            <motion.article
+            <article
               className="stack-card"
               key={group.number}
-              initial={reduceMotion ? false : { opacity: 0, y: 18 }}
-              whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-              whileHover={reduceMotion ? undefined : { y: -5 }}
-              viewport={{ once: true, amount: 0.18 }}
-              transition={reduceMotion ? { duration: 0 } : { duration: 0.32, delay: index * 0.055, ease: "easeOut" }}
+              data-cinematic-item
+              data-tilt-card
+              onPointerMove={(event) => {
+                if (event.pointerType === "touch" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+                const bounds = event.currentTarget.getBoundingClientRect();
+                const x = (event.clientX - bounds.left) / bounds.width;
+                const y = (event.clientY - bounds.top) / bounds.height;
+                event.currentTarget.style.setProperty("--card-spot-x", `${x * 100}%`);
+                event.currentTarget.style.setProperty("--card-spot-y", `${y * 100}%`);
+                event.currentTarget.style.setProperty("--card-tilt-x", `${(0.5 - y) * 2.5}deg`);
+                event.currentTarget.style.setProperty("--card-tilt-y", `${(x - 0.5) * 3}deg`);
+              }}
+              onPointerLeave={(event) => {
+                event.currentTarget.style.setProperty("--card-tilt-x", "0deg");
+                event.currentTarget.style.setProperty("--card-tilt-y", "0deg");
+              }}
             >
               <div className="stack-card-top">
                 <span className="stack-card-number">{group.number} / 04</span>
@@ -59,7 +67,7 @@ export function PlaygroundSection() {
                 ))}
               </div>
               {group.note ? <p className="stack-card-note"><span />{group.note}</p> : <span className="stack-card-footer"><Workflow size={13} /> BUILD · TEST · REFINE</span>}
-            </motion.article>
+            </article>
           );
         })}
       </div>

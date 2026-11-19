@@ -258,3 +258,121 @@
 .project-action { min-height: 38px; padding-inline: 5px; gap: 5px; font-size: 8px; }
 .project-action-details { background: transparent; color: var(--muted); }
 .contact-feedback-error { color: var(--warm); }
+
+/* PROMPT 3 — cinematic motion layer. All colors follow the active palette. */
+.hero-section::before {
+  transform-origin: 50% 50%;
+  animation: p3-hero-atmosphere 13s ease-in-out infinite alternate;
+}
+
+@keyframes p3-hero-atmosphere {
+  from { opacity: .62; transform: scale(.94) translate3d(0, 0, 0); }
+  to { opacity: 1; transform: scale(1.06) translate3d(-1.2%, 1%, 0); }
+}
+/* The browser preview and skill tiles use a low-angle, cursor-led 3D response. */
+.project-card,
+.stack-card {
+  --card-tilt-x: 0deg;
+  --card-tilt-y: 0deg;
+  transform: perspective(1250px) rotateX(var(--card-tilt-x)) rotateY(var(--card-tilt-y)) translateY(var(--card-lift, 0px));
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition: transform .24s cubic-bezier(.2,.8,.2,1), border-color .28s ease, box-shadow .3s ease, background-color .35s ease;
+}
+.project-card::after,
+.stack-card::after {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  content: "";
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(280px circle at var(--spot-x, var(--card-spot-x, 50%)) var(--spot-y, var(--card-spot-y, 50%)), color-mix(in srgb, var(--accent) 12%, transparent), transparent 72%);
+  transition: opacity .28s ease;
+}
+.project-card { position: relative; }
+.stack-card { position: relative; overflow: hidden; }
+.project-card > *,
+.stack-card > * { position: relative; z-index: 1; }
+
+@media (hover: hover) and (pointer: fine) {
+  .project-card:hover,
+  .stack-card:hover {
+    --card-lift: -5px;
+    border-color: color-mix(in srgb, var(--accent-strong) 62%, var(--line));
+    box-shadow: 0 22px 48px rgb(var(--ink-rgb) / 12%), 0 0 0 1px color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+  .project-card:hover::after,
+  .stack-card:hover::after { opacity: 1; }
+  .stack-card:hover .stack-card-icon { transform: translateY(-2px) rotate(-5deg); }
+}
+
+/* Refined feedback across navigation, calls to action and interactive panels. */
+.nav-logo,
+.menu-trigger,
+.command-shortcut-trigger,
+.hero-primary-cta,
+.hero-secondary-cta,
+.project-action,
+.contact-copy-button,
+.contact-links a,
+.back-to-top,
+.footer-links a {
+  transition-timing-function: cubic-bezier(.2,.8,.2,1);
+}
+.nav-logo { transition: transform .24s cubic-bezier(.2,.8,.2,1), color .24s ease; }
+.nav-logo:hover { transform: translateY(-2px); }
+.menu-trigger { transition: transform .24s cubic-bezier(.2,.8,.2,1), color .24s ease; }
+.menu-trigger:hover { transform: translateY(-1px); color: var(--accent-strong); }
+.menu-trigger .menu-lines i { transition: transform .28s cubic-bezier(.2,.8,.2,1), width .28s ease; }
+.menu-trigger:hover .menu-lines i:first-child { transform: translateX(-3px); }
+.menu-trigger:hover .menu-lines i:last-child { transform: translateX(3px); }
+.command-shortcut-trigger:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgb(var(--ink-rgb) / 8%); }
+.project-action:hover { transform: translateY(-2px); }
+.command-palette-option { transition: transform .2s ease, background .2s ease, border-color .2s ease; }
+.command-palette-option:not(:disabled):hover { transform: translateX(3px); }
+.command-palette-close { transition: transform .24s ease, background .2s ease, color .2s ease; }
+.command-palette-close:hover { transform: rotate(90deg); }
+.terminal-shell { transition: border-color .28s ease, box-shadow .28s ease; }
+.terminal-shell:focus-within { border-color: color-mix(in srgb, var(--accent-on-dark) 56%, transparent); box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-on-dark) 15%, transparent), 0 18px 48px rgb(0 0 0 / 12%); }
+.terminal-input { transition: color .2s ease, caret-color .2s ease; }
+.terminal-submit:hover svg { transform: translate(2px, -2px); }
+.terminal-submit svg { transition: transform .2s ease; }
+.contact-form { transition: border-color .28s ease, box-shadow .28s ease, background .28s ease; }
+.contact-form:focus-within { border-color: color-mix(in srgb, var(--accent-on-dark) 44%, transparent); box-shadow: 0 16px 48px rgb(0 0 0 / 12%); }
+.contact-form input,
+.contact-form textarea { transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease; }
+.contact-submit svg { transition: transform .24s ease; }
+.contact-submit:hover svg { transform: translate(3px, -2px); }
+.contact-copy-button,
+.contact-links a,
+.back-to-top { transition: color .22s ease, border-color .22s ease, transform .22s ease; }
+.contact-links a:hover,
+.back-to-top:hover { transform: translateY(-2px); }
+
+@media (max-width: 640px) {
+  .project-card,
+  .stack-card { transform: none !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-section::before,
+  .hero-stage-glow { animation: none !important; }
+  .project-card,
+  .stack-card,
+  .nav-logo,
+  .menu-trigger,
+  .command-shortcut-trigger,
+  .project-action,
+  .command-palette-option,
+  .command-palette-close,
+  .terminal-shell,
+  .contact-form,
+  .contact-form input,
+  .contact-form textarea,
+  .contact-links a,
+  .back-to-top { transition: none !important; transform: none !important; }
+  .project-card::after,
+  .stack-card::after { display: none !important; }
+}

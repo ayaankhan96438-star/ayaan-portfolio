@@ -51,8 +51,8 @@ export function IntroSection() {
   }, []);
 
   return (
-    <section className="section intro-section" id="about" ref={sectionRef}>
-      <div className="section-heading">
+    <section className="section intro-section" id="about" data-spotlight-zone ref={sectionRef}>
+      <div className="section-heading" data-cinematic-reveal>
         <span className="section-number">01</span>
         <h2>Hello<span className="accent-dot">.</span></h2>
         <span className="section-heading-note">A LITTLE INTRODUCTION</span>

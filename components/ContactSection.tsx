@@ -43,19 +43,19 @@ export function ContactSection() {
   };
 
   return (
-    <section className="contact-section" id="contact">
+    <section className="contact-section" id="contact" data-spotlight-zone>
       <div className="contact-topline">
         <span className="section-number">06 / CONTACT</span>
         <span>THE NEXT GOOD THING STARTS WITH A HELLO.</span>
       </div>
 
-      <h2>
+      <h2 data-cinematic-reveal>
         Say hi.<br />
         <span className="contact-bring-line"><span className="contact-bring-word">Bring</span> the idea.</span><br />
         <span className="contact-accent-line">I&apos;ll <span className="contact-bring-word">bring</span> the code.</span>
       </h2>
 
-      <div className="contact-feature-grid">
+      <div className="contact-feature-grid" data-cinematic-reveal>
         <div className="contact-bottom">
           <div className="contact-email-block">
             <span className="eyebrow">GOT A PROJECT, QUESTION, OR MEME?</span>

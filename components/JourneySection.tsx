@@ -8,7 +8,7 @@ const icons = {
 
 export function JourneySection() {
   return (
-    <section className="section journey-section" id="journey" aria-labelledby="journey-title">
+    <section className="section journey-section" id="journey" data-spotlight-zone aria-labelledby="journey-title">
       <div className="section-heading" data-cinematic-reveal>
         <span className="section-number">04</span>
         <h2 id="journey-title">The journey so far<span className="accent-dot">.</span></h2>
@@ -20,11 +20,11 @@ export function JourneySection() {
         <span><Milestone size={15} /> UPDATED AS I GROW</span>
       </div>
 
-      <ol className="journey-list">
+      <ol className="journey-list" data-cinematic-stagger>
         {journeyItems.map((item, index) => {
           const Icon = icons[item.kind];
           return (
-            <li className="journey-item" key={item.id} data-cinematic-reveal>
+            <li className="journey-item" key={item.id} data-cinematic-item>
               <div className="journey-marker"><Icon size={17} strokeWidth={1.7} aria-hidden="true" /></div>
               <div className="journey-date">{item.date}</div>
               <div className="journey-copy">

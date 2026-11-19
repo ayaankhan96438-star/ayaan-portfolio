@@ -119,7 +119,7 @@ export function DeveloperTerminal() {
   };
 
   return (
-    <section className="section terminal-section" id="terminal" aria-labelledby="terminal-title">
+    <section className="section terminal-section" id="terminal" data-spotlight-zone aria-labelledby="terminal-title">
       <div className="section-heading" data-cinematic-reveal>
         <span className="section-number">05</span>
         <h2 id="terminal-title">A little command line<span className="accent-dot">.</span></h2>

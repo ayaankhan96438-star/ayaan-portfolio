@@ -33,7 +33,21 @@ export function HeroSection() {
     let revealTimeline: gsap.core.Timeline | null = null;
     const context = gsap.context(() => {
       revealTimeline = gsap.timeline({ paused: true });
+      const navLogo = document.querySelector<HTMLElement>(".site-nav .nav-logo");
+      if (navLogo) {
+        revealTimeline.fromTo(
+          navLogo,
+          { y: -8, autoAlpha: 0 },
+          { y: 0, autoAlpha: 1, duration: 0.58, ease: "power3.out" },
+          0,
+        );
+      }
       revealTimeline
+        .fromTo(
+          ".hero-topline",
+          { y: -12, autoAlpha: 0 },
+          { y: 0, autoAlpha: 1, duration: 0.62, ease: "power3.out" },
+        )
         .fromTo(
           ".hero-kicker",
           { y: 14, autoAlpha: 0 },
@@ -60,23 +74,36 @@ export function HeroSection() {
           "-=0.48",
         )
         .fromTo(
+          ".hero-stage-glow",
+          { scale: 0.76, autoAlpha: 0, filter: "blur(28px)" },
+          { scale: 1, autoAlpha: 1, filter: "blur(12px)", duration: 1.25, ease: "power2.out" },
+          "-=0.9",
+        )
+        .fromTo(
           ".hero-laptop-wrap",
-          { y: 36, scale: 0.88, autoAlpha: 0 },
+          { y: 42, scale: 0.86, rotationY: -9, autoAlpha: 0 },
           {
             y: 0,
             scale: 1,
+            rotationY: 0,
             autoAlpha: 1,
-            duration: 1.15,
+            duration: 1.2,
             ease: "power3.out",
             clearProps: "transform,opacity,visibility",
           },
-          "-=0.75",
+          "-=0.95",
         )
         .fromTo(
           ".hero-orbit, .hero-orb, .hero-floating-label",
           { autoAlpha: 0 },
           { autoAlpha: 1, duration: 0.9, stagger: 0.08, ease: "power2.out" },
           "-=0.85",
+        )
+        .fromTo(
+          ".hero-bottomline",
+          { y: 14, autoAlpha: 0 },
+          { y: 0, autoAlpha: 1, duration: 0.62, ease: "power3.out" },
+          "-=0.55",
         );
     }, root);
 
@@ -96,7 +123,7 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="hero-section hero-section--floating" id="home" ref={heroRef} aria-labelledby="hero-title">
+    <section className="hero-section hero-section--floating" id="home" data-spotlight-zone ref={heroRef} aria-labelledby="hero-title">
       <div className="hero-topline">
         <span className="eyebrow">SOFTWARE DEVELOPER · DIGITAL CRAFT</span>
         <span className="hero-index">INDEPENDENTLY BUILT / ALWAYS ITERATING</span>

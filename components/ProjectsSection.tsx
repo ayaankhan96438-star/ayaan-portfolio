@@ -17,7 +17,7 @@ export function ProjectsSection() {
   const projectCount = String(projects.length).padStart(2, "0");
 
   return (
-    <section className="section projects-section" id="work">
+    <section className="section projects-section" id="work" data-spotlight-zone>
       <div className="section-heading" data-cinematic-reveal>
         <span className="section-number">02</span>
         <h2>A few things<br className="mobile-break" /> I&apos;ve built<span className="accent-dot">.</span></h2>
@@ -26,6 +26,7 @@ export function ProjectsSection() {
 
       <div
         className="projects-grid"
+        data-cinematic-stagger
         onPointerMove={(event) => {
           cursorX.set(event.clientX);
           cursorY.set(event.clientY);
@@ -35,28 +36,31 @@ export function ProjectsSection() {
         {projects.map((project, index) => {
           const isFeatured = project.slug === "amaantrader";
           return (
-          <motion.article
+          <article
             className={`project-card project-card-${index + 1}${isFeatured ? " project-card-featured" : ""}`}
             key={project.slug}
-            data-cinematic-reveal
+            data-cinematic-item
+            data-tilt-card
             onPointerMove={(event) => {
-              if (event.pointerType === "touch") return;
+              if (event.pointerType === "touch" || shouldReduceMotion) return;
               const bounds = event.currentTarget.getBoundingClientRect();
               const x = (event.clientX - bounds.left) / bounds.width;
               const y = (event.clientY - bounds.top) / bounds.height;
               event.currentTarget.style.setProperty("--spot-x", `${x * 100}%`);
               event.currentTarget.style.setProperty("--spot-y", `${y * 100}%`);
-              event.currentTarget.style.setProperty("--tilt-x", `${(0.5 - y) * 3.5}deg`);
-              event.currentTarget.style.setProperty("--tilt-y", `${(x - 0.5) * 4.5}deg`);
+              event.currentTarget.style.setProperty("--card-tilt-x", `${(0.5 - y) * 2.4}deg`);
+              event.currentTarget.style.setProperty("--card-tilt-y", `${(x - 0.5) * 3}deg`);
+              event.currentTarget.style.setProperty("--tilt-x", `${(0.5 - y) * 1.8}deg`);
+              event.currentTarget.style.setProperty("--tilt-y", `${(x - 0.5) * 2.2}deg`);
             }}
+            onPointerEnter={(event) => { if (event.pointerType !== "touch" && !shouldReduceMotion) cursorScale.set(1); }}
             onPointerLeave={(event) => {
+              event.currentTarget.style.setProperty("--card-tilt-x", "0deg");
+              event.currentTarget.style.setProperty("--card-tilt-y", "0deg");
               event.currentTarget.style.setProperty("--tilt-x", "0deg");
               event.currentTarget.style.setProperty("--tilt-y", "0deg");
+              cursorScale.set(0);
             }}
-            whileHover={shouldReduceMotion ? undefined : { y: -4 }}
-            transition={shouldReduceMotion ? { duration: 0 } : { type: "spring", stiffness: 360, damping: 28 }}
-            onHoverStart={() => { if (!shouldReduceMotion) cursorScale.set(1); }}
-            onHoverEnd={() => cursorScale.set(0)}
           >
             <Link
               href={`/work/${project.slug}`}
@@ -105,7 +109,7 @@ export function ProjectsSection() {
                 <span>View details</span><ArrowUpRight size={14} aria-hidden="true" />
               </Link>
             </div>
-          </motion.article>
+          </article>
           );
         })}
 
