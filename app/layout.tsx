@@ -5,10 +5,13 @@ import { Footer } from "@/components/Footer";
 import { Preloader } from "@/components/Preloader";
 import { SmoothScrollProvider } from "@/components/SmoothScrollProvider";
 import { CursorEffects } from "@/components/CursorEffects";
+import { PaletteBar } from "@/components/PaletteBar";
 import { ScrollAnimations } from "@/components/ScrollAnimations";
 import { siteConfig, siteUrl } from "@/lib/site";
+import { palettes } from "@/data/palettes";
 import "./globals.css";
 import "./preloader.css";
+import "./palette.css";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -40,6 +43,43 @@ const introBootScript = `
     root.dataset.intro = reducedMotion || alreadySeen ? "skip" : "playing";
   } catch {
     root.dataset.intro = "skip";
+  }
+})();
+`;
+
+const paletteBootScript = `
+(function () {
+  var root = document.documentElement;
+  var keys = [
+    "--paper", "--surface", "--ink", "--ink-rgb", "--muted", "--line",
+    "--accent", "--accent-strong", "--accent-soft", "--accent-on-dark",
+    "--dark", "--on-dark", "--warm", "--ok"
+  ];
+  try {
+    var raw = window.localStorage.getItem("palette-vars");
+    var stateRaw = window.localStorage.getItem("palette-state");
+    if (!raw || !stateRaw) return;
+    var saved = JSON.parse(raw);
+    var state = JSON.parse(stateRaw);
+    var allowedIds = ${JSON.stringify(palettes.map((palette) => palette.id))};
+    if (!saved || typeof saved !== "object" || !saved.vars || typeof saved.vars !== "object") return;
+    if (!state || typeof state !== "object" || allowedIds.indexOf(state.id) === -1) return;
+    if ((state.mode !== "light" && state.mode !== "dark") || state.mode !== saved.mode) return;
+    keys.forEach(function (key) {
+      var value = saved.vars[key];
+      if (typeof value === "string") root.style.setProperty(key, value);
+    });
+    if (saved.mode === "light" || saved.mode === "dark") root.style.colorScheme = saved.mode;
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.setAttribute("name", "theme-color");
+      document.head.appendChild(meta);
+    }
+    var paper = root.style.getPropertyValue("--paper");
+    if (paper) meta.setAttribute("content", paper);
+  } catch {
+    // Ignore malformed or unavailable palette storage and use the site defaults.
   }
 })();
 `;
@@ -78,11 +118,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
         <script dangerouslySetInnerHTML={{ __html: introBootScript }} />
+        <script dangerouslySetInnerHTML={{ __html: paletteBootScript }} />
       </head>
       <body className={inter.variable}>
         <SmoothScrollProvider>
           <Preloader />
           <CursorEffects />
+          <PaletteBar />
           <ScrollAnimations />
           <Navbar />
           {children}

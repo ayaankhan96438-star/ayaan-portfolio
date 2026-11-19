@@ -1,0 +1,146 @@
+PALETTE LAB — STATIC HEX COLOR AUDIT
+Generated against the merged portfolio source used for this update.
+The following globals.css custom-property literals are not in VAR_KEYS and therefore are not overwritten by lib/palette.ts.
+
+app/globals.css:38  --bg = #EDEBE3
+app/globals.css:40  --card = #F8F7F1
+app/globals.css:41  --text = #171D18
+app/globals.css:44  --accent-text = #171D18
+app/globals.css:45  --border = #D5DBD0
+app/globals.css:49  --accent-light = #D5E2B8
+app/globals.css:52  --dark-alt = #151B16
+app/globals.css:53  --dark-panel = #171D19
+app/globals.css:54  --dark-panel-soft = #1D251F
+app/globals.css:55  --dark-code = #131915
+app/globals.css:57  --inverse-muted = #9DA89C
+app/globals.css:58  --inverse-soft = #AAB7A4
+app/globals.css:62  --shadow-color = #000000
+app/globals.css:63  --window-dot-close = #C9826B
+app/globals.css:64  --window-dot-warn = #C5A56B
+app/globals.css:65  --window-dot-ok = #8FAE70
+app/globals.css:66  --syntax-muted = #718071
+app/globals.css:67  --syntax-line = #59665A
+app/globals.css:68  --syntax-string = #B8C8A8
+app/globals.css:69  --syntax-function = #E8E7DE
+app/globals.css:70  --syntax-bright = #DCE6D8
+app/globals.css:71  --syntax-accent = #C4D7AC
+app/globals.css:72  --theme-swatch-classic = #A7C96B
+app/globals.css:73  --theme-swatch-dark = #C6FF3D
+app/globals.css:74  --theme-swatch-forest = #1F6B45
+app/globals.css:76  --playground-label = #8D9A8D
+app/globals.css:78  --syntax-dot = #53604F
+app/globals.css:79  --syntax-tab = #849084
+app/globals.css:80  --syntax-filename = #687568
+app/globals.css:81  --syntax-button = #C5D1C0
+app/globals.css:82  --syntax-browser-bg = #121713
+app/globals.css:83  --syntax-iframe-bg = #121914
+app/globals.css:84  --syntax-footnote = #748174
+app/globals.css:89  --pl-sage = #AAB7A4
+app/globals.css:90  --pl-muted = #7D897E
+app/globals.css:92  --pl-lime = #C6EF65
+app/globals.css:93  --pl-code-panel = #1B241D
+app/globals.css:94  --pl-terminal = #D7DCD1
+app/globals.css:95  --pl-terminal-muted = #869287
+app/globals.css:96  --pl-terminal-success = #B5D98A
+app/globals.css:97  --pl-code-string = #B8C8A8
+app/globals.css:98  --pl-code-function = #E8E7DE
+app/globals.css:99  --pl-code-comment = #78867B
+app/globals.css:116  --pl-tab-muted = #778177
+app/globals.css:117  --pl-line-number = #617064
+app/globals.css:118  --pl-terminal-end = #151B17
+app/globals.css:120  --pl-browser-background = #F8F7F1
+app/globals.css:121  --pl-browser-ink = #181E19
+app/globals.css:122  --pl-browser-divider = #D8DCD2
+app/globals.css:123  --pl-window-dot-border = #AEB7A9
+app/globals.css:124  --pl-window-dot-middle = #D5DCCB
+app/globals.css:125  --pl-window-dot-ready-border = #9DBB6C
+app/globals.css:126  --pl-window-dot-ready = #B9D981
+app/globals.css:127  --pl-address-background = #EFEEE6
+app/globals.css:128  --pl-address-ink = #717B70
+app/globals.css:129  --pl-browser-refresh = #737E72
+app/globals.css:130  --pl-preview-strong = #202820
+app/globals.css:131  --pl-preview-copy = #687367
+app/globals.css:132  --pl-preview-dot = #9FBF68
+app/globals.css:133  --pl-preview-card-border = #D3D9CE
+app/globals.css:134  --pl-preview-image = #DDE2D5
+app/globals.css:135  --pl-preview-tag-border = #D6DCCF
+app/globals.css:136  --pl-preview-tag-ink = #6F796C
+app/globals.css:146  --bg = #0E0F0C
+app/globals.css:148  --card = #171916
+app/globals.css:149  --text = #F2F1EA
+app/globals.css:152  --accent-text = #0E0F0C
+app/globals.css:157  --accent-light = #D9FF8A
+app/globals.css:160  --dark-alt = #13150F
+app/globals.css:161  --dark-panel = #171916
+app/globals.css:162  --dark-panel-soft = #20231D
+app/globals.css:163  --dark-code = #11130F
+app/globals.css:165  --inverse-muted = #A9AA9F
+app/globals.css:166  --inverse-soft = #C1C3B7
+app/globals.css:170  --shadow-color = #000000
+app/globals.css:171  --window-dot-close = #D18A73
+app/globals.css:172  --window-dot-warn = #D4B875
+app/globals.css:173  --window-dot-ok = #A8C96F
+app/globals.css:174  --syntax-muted = #858A7C
+app/globals.css:175  --syntax-line = #65695E
+app/globals.css:176  --syntax-string = #C8D4B0
+app/globals.css:177  --syntax-function = #E9E9DE
+app/globals.css:178  --syntax-bright = #E0E4D7
+app/globals.css:179  --syntax-accent = #D9F59A
+app/globals.css:180  --theme-swatch-classic = #A7C96B
+app/globals.css:181  --theme-swatch-dark = #C6FF3D
+app/globals.css:182  --theme-swatch-forest = #1F6B45
+app/globals.css:195  --pl-panel-soft = #20231D
+app/globals.css:197  --pl-sage = #C1C3B7
+app/globals.css:201  --pl-code-panel = #1B1F17
+app/globals.css:202  --pl-terminal = #E0E4D7
+app/globals.css:203  --pl-terminal-muted = #A9AA9F
+app/globals.css:204  --pl-terminal-success = #D9FF8A
+app/globals.css:205  --pl-code-string = #C8D4B0
+app/globals.css:206  --pl-code-function = #E9E9DE
+app/globals.css:207  --pl-code-comment = #8A8C84
+app/globals.css:251  --bg = #EFEBDD
+app/globals.css:253  --card = #E6E1CF
+app/globals.css:254  --text = #12201A
+app/globals.css:257  --accent-text = #EFEBDD
+app/globals.css:262  --accent-light = #BED4C5
+app/globals.css:265  --dark-alt = #172B21
+app/globals.css:266  --dark-panel = #1B3025
+app/globals.css:267  --dark-panel-soft = #20392B
+app/globals.css:268  --dark-code = #14251C
+app/globals.css:270  --inverse-muted = #BECABD
+app/globals.css:271  --inverse-soft = #D0D9CE
+app/globals.css:275  --shadow-color = #000000
+app/globals.css:276  --window-dot-close = #C9826B
+app/globals.css:277  --window-dot-warn = #C5A56B
+app/globals.css:278  --window-dot-ok = #8FAE70
+app/globals.css:279  --syntax-muted = #9EAD9F
+app/globals.css:280  --syntax-line = #718477
+app/globals.css:281  --syntax-string = #C3D4C4
+app/globals.css:282  --syntax-function = #EFEBDD
+app/globals.css:283  --syntax-bright = #E6EDE0
+app/globals.css:284  --syntax-accent = #A8D8B9
+app/globals.css:285  --theme-swatch-classic = #A7C96B
+app/globals.css:286  --theme-swatch-dark = #C6FF3D
+app/globals.css:287  --theme-swatch-forest = #1F6B45
+app/globals.css:302  --pl-sage = #C3D1C5
+app/globals.css:303  --pl-muted = #9BAD9D
+app/globals.css:306  --pl-code-panel = #1B3025
+app/globals.css:307  --pl-terminal = #E6EDE0
+app/globals.css:308  --pl-terminal-muted = #BECABD
+app/globals.css:309  --pl-terminal-success = #BED4C5
+app/globals.css:310  --pl-code-string = #C3D4C4
+app/globals.css:311  --pl-code-function = #EFEBDD
+app/globals.css:312  --pl-code-comment = #9BAD9D
+
+app/preloader.css: no hardcoded hex color literals found.
+
+components/PaletteBar.tsx: original-design chip swatches (intentionally fixed so chip 0 always shows the requested reference palette):
+components/PaletteBar.tsx:14  #EDEBE3
+components/PaletteBar.tsx:15  #F8F7F1
+components/PaletteBar.tsx:16  #A7C96B
+components/PaletteBar.tsx:17  #819E48
+components/PaletteBar.tsx:18  #171D18
+
+app/palette.css uses additional hardcoded dark UI colors intentionally; the task requires the temporary PaletteBar styling to remain independent of site CSS variables.
+
+Important behavior note: CSS properties such as --bg, --text, --card, --border, --accent-text, --accent-light and the --syntax/--pl-* tokens are not in the requested VAR_KEYS list. Their hardcoded values remain unchanged during palette switching. This audit intentionally does not edit them.

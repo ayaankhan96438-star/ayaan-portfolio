@@ -1,0 +1,28 @@
+A light 14.55:1
+A dark  18.27:1
+B light 12.71:1
+B dark  15.73:1
+C light 16.37:1
+C dark  17.93:1
+D light 18.01:1
+D dark  18.70:1
+E light 9.00:1
+E dark  15.80:1
+F light 12.44:1
+F dark  17.36:1
+G light 11.17:1
+G dark  15.12:1
+H light 14.93:1
+H dark  17.13:1
+I light 13.96:1
+I dark  16.51:1
+J light 14.96:1
+J dark  17.61:1
+K light 15.95:1
+K dark  18.58:1
+L light 17.07:1
+L dark  18.79:1
+M light 12.58:1
+M dark  17.14:1
+
+PASS — 26 themes; minimum contrast 9.00:1
