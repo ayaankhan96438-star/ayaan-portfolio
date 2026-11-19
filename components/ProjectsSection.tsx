@@ -76,7 +76,6 @@ export function ProjectsSection() {
                     ? "(max-width: 640px) 100vw, (max-width: 900px) 84vw, 76vw"
                     : "(max-width: 640px) 100vw, (max-width: 900px) 48vw, 42vw"}
                   address={project.liveUrl || "Local project preview"}
-                  priority={isFeatured}
                   className="project-browser-window"
                 />
                 <span className="project-image-index">{project.number} / {projectCount}</span>

@@ -8,7 +8,7 @@ import { ContactSection } from "@/components/ContactSection";
 
 export default function HomePage() {
   return (
-    <main>
+    <main id="main-content" tabIndex={-1}>
       <HeroSection />
       <IntroSection />
       <ProjectsSection />

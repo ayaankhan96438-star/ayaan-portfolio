@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowLeft, ArrowUpRight, ExternalLink } from "lucide-react";
 import { notFound } from "next/navigation";
 import { getProjectBySlug, projects } from "@/data/projects";
+import { siteUrl } from "@/lib/site";
 import { BrowserWindow } from "@/components/BrowserWindow";
 
 export function generateStaticParams() {
@@ -19,10 +20,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: project.title,
     description: project.shortDescription,
+    alternates: { canonical: `/work/${project.slug}` },
     openGraph: {
+      type: "article",
+      url: `${siteUrl}/work/${project.slug}`,
       title: `${project.title} — Ayaan Khan`,
       description: project.shortDescription,
-      images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Ayaan Khan — Software Developer" }],
+      images: [{ url: project.image, alt: project.imageAlt }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${project.title} — Ayaan Khan`,
+      description: project.shortDescription,
+      images: [project.image],
     },
   };
 }
@@ -33,7 +43,7 @@ export default async function ProjectCaseStudy({ params }: PageProps) {
   if (!project) notFound();
 
   return (
-    <main>
+    <main id="main-content" tabIndex={-1}>
       <article className="case-study">
       <div className="case-back-row">
         <Link href="/#work" className="text-link"><ArrowLeft size={16} /> Back to selected work</Link>

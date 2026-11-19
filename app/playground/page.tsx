@@ -1,16 +1,32 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight, MousePointer2 } from "lucide-react";
-import { LiveCodePlayground } from "@/components/LiveCodePlayground";
+import dynamic from "next/dynamic";
+import { siteUrl } from "@/lib/site";
+
+const LiveCodePlayground = dynamic(
+  () => import("@/components/LiveCodePlayground").then((module) => module.LiveCodePlayground),
+  {
+    ssr: true,
+    loading: () => <div className="playground-loading" role="status">Preparing the code playground…</div>,
+  },
+);
 
 export const metadata: Metadata = {
   title: "Live Playground",
-  description: "A small interactive HTML, CSS and JavaScript playground by Ayaan Khan.",
+  description: "Experiment with HTML, CSS and JavaScript in Ayaan Khan's interactive portfolio playground.",
+  alternates: { canonical: "/playground" },
+  openGraph: {
+    title: "Live Playground — Ayaan Khan",
+    description: "Experiment with HTML, CSS and JavaScript in an interactive browser-based playground.",
+    url: `${siteUrl}/playground`,
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Ayaan Khan — Software Developer portfolio" }],
+  },
 };
 
 export default function PlaygroundPage() {
   return (
-    <main className="playground-page">
+    <main id="main-content" tabIndex={-1} className="playground-page">
       <header className="playground-page-hero">
         <div className="playground-page-topline">
           <Link href="/#work"><ArrowLeft size={15} /> BACK TO PORTFOLIO</Link>

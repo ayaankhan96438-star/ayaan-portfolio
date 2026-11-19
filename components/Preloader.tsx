@@ -659,18 +659,18 @@ export function Preloader() {
                   <header className="pl-preview-nav" ref={previewNavbarRef}>
                     <span className="pl-preview-brand">ayaan<span>.</span></span>
                     <div className="pl-preview-nav-actions">
-                      <span className="pl-availability"><i />Available for work</span>
+                      <span className="pl-availability"><i />Building &amp; learning</span>
                       <span className="pl-menu-button">Menu <i><b /><b /></i></span>
                     </div>
                   </header>
 
                   <section className="pl-preview-hero" ref={previewHeroRef}>
                     <h1 className="pl-preview-title">
-                      <span>Think.</span>
-                      <span>Code.</span>
-                      <span>Ship<span className="pl-preview-accent-dot">.</span></span>
+                      <span>Build.</span>
+                      <span>Shape.</span>
+                      <span>Launch<span className="pl-preview-accent-dot">.</span></span>
                     </h1>
-                    <p>Turning complicated ideas into simple digital things.</p>
+                    <p>Turning curious ideas into thoughtful websites and digital experiences.</p>
                   </section>
 
                   <section className="pl-preview-projects" ref={previewProjectsRef}>

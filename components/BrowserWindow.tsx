@@ -39,7 +39,15 @@ export function BrowserWindow({
         {src.endsWith(".svg") ? (
           <ThemeArtwork src={src} alt={alt} />
         ) : (
-          <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className="project-image" />
+          <Image
+            src={src}
+            alt={alt}
+            fill
+            sizes={sizes}
+            priority={priority}
+            quality={86}
+            className="project-image"
+          />
         )}
       </span>
     </span>

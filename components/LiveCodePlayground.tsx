@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import type { KeyboardEvent } from "react";
 import { Code2, Eye, RotateCcw, Sparkles } from "lucide-react";
 
 type CodeTab = "html" | "css" | "js";
@@ -126,6 +127,21 @@ ${js}
     [html, css, js, themeCssVars],
   );
 
+  const handleTabKeyDown = (event: KeyboardEvent<HTMLButtonElement>, tab: CodeTab) => {
+    const tabs: CodeTab[] = ["html", "css", "js"];
+    const currentIndex = tabs.indexOf(tab);
+    let nextIndex = currentIndex;
+    if (event.key === "ArrowRight") nextIndex = (currentIndex + 1) % tabs.length;
+    else if (event.key === "ArrowLeft") nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+    else if (event.key === "Home") nextIndex = 0;
+    else if (event.key === "End") nextIndex = tabs.length - 1;
+    else return;
+    event.preventDefault();
+    const nextTab = tabs[nextIndex];
+    setActiveTab(nextTab);
+    document.getElementById(`code-tab-${nextTab}`)?.focus();
+  };
+
   const resetCode = () => {
     setHtml(starterHtml);
     setCss(starterCss);
@@ -152,15 +168,19 @@ ${js}
             <span className="code-lab-live-indicator"><i /> READY</span>
           </div>
 
-          <div className="code-lab-tabs" role="tablist" aria-label="Code language">
+          <div className="code-lab-tabs" role="tablist" aria-label="Code language" aria-orientation="horizontal">
             {(["html", "css", "js"] as CodeTab[]).map((tab) => (
               <button
                 type="button"
+                id={`code-tab-${tab}`}
                 role="tab"
                 aria-selected={activeTab === tab}
+                aria-controls="code-lab-editor"
+                tabIndex={activeTab === tab ? 0 : -1}
                 className={activeTab === tab ? "code-lab-tab is-active" : "code-lab-tab"}
                 key={tab}
                 onClick={() => setActiveTab(tab)}
+                onKeyDown={(event) => handleTabKeyDown(event, tab)}
               >
                 {tabLabels[tab].label}
               </button>
@@ -168,7 +188,12 @@ ${js}
             <span className="code-lab-filename">{tabLabels[activeTab].filename}</span>
           </div>
 
-          <div className="code-lab-textarea-wrap">
+          <div
+            className="code-lab-textarea-wrap"
+            id="code-lab-editor"
+            role="tabpanel"
+            aria-labelledby={`code-tab-${activeTab}`}
+          >
             <span className="code-lab-line-count" aria-hidden="true">
               {currentCode.split("\n").map((_, index) => <span key={index}>{index + 1}</span>)}
             </span>

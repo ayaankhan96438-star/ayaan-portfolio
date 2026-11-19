@@ -6,8 +6,13 @@ import { useLayoutEffect, useRef, type PointerEvent } from "react";
 import gsap from "gsap";
 
 function handleStagePointerMove(event: PointerEvent<HTMLDivElement>) {
-  if (event.pointerType === "touch") return;
+  if (
+    event.pointerType === "touch" ||
+    !window.matchMedia("(hover: hover) and (pointer: fine)").matches ||
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) return;
   const bounds = event.currentTarget.getBoundingClientRect();
+  if (!bounds.width || !bounds.height) return;
   const x = (event.clientX - bounds.left) / bounds.width - 0.5;
   const y = (event.clientY - bounds.top) / bounds.height - 0.5;
   event.currentTarget.style.setProperty("--laptop-rotate-x", `${y * -7}deg`);
@@ -158,7 +163,7 @@ export function HeroSection() {
         <div
           className="hero-3d-stage"
           role="img"
-          aria-label="A floating three-dimensional laptop with orbiting shapes"
+          aria-label="A floating three-dimensional laptop with a detailed keyboard deck and orbiting shapes"
           onPointerMove={handleStagePointerMove}
           onPointerLeave={resetStagePointer}
         >

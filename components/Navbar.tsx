@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Search, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { siteConfig } from "@/lib/site";
@@ -21,6 +21,7 @@ const menuItems = [
 
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
   const lenis = useLenis();
   const [localTime, setLocalTime] = useState("--:--");
   const menuTriggerRef = useRef<HTMLButtonElement>(null);
@@ -111,6 +112,7 @@ export function Navbar() {
             type="button"
             className="menu-trigger"
             aria-expanded={menuOpen}
+            aria-haspopup="dialog"
             aria-controls="fullscreen-menu"
             onClick={() => setMenuOpen(true)}
             ref={menuTriggerRef}
@@ -128,10 +130,10 @@ export function Navbar() {
             role="dialog"
             aria-modal="true"
             aria-label="Main navigation"
-            initial={{ clipPath: "inset(0 0 100% 0)" }}
+            initial={prefersReducedMotion ? false : { clipPath: "inset(0 0 100% 0)" }}
             animate={{ clipPath: "inset(0 0 0% 0)" }}
             exit={{ clipPath: "inset(0 0 100% 0)" }}
-            transition={{ duration: 0.55, ease: [0.76, 0, 0.24, 1] }}
+            transition={prefersReducedMotion ? { duration: 0.01 } : { duration: 0.55, ease: [0.76, 0, 0.24, 1] }}
           >
             <div className="menu-overlay-top">
               <Link href="/#home" className="nav-logo" onClick={() => setMenuOpen(false)}>

@@ -121,6 +121,7 @@ export function PaletteBar({ variant }: PaletteBarProps) {
   return (
     <div
       className={`palette-control palette-control--${variant}`}
+      role="group"
       aria-label="Palette color choices"
       onKeyDown={(event) => {
         if (event.key === "Escape") setOpenId(null);

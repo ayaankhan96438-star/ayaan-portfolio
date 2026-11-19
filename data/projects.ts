@@ -31,7 +31,7 @@ export const projects: Project[] = [
     overview:
       "A premium jacket and outerwear shopping concept with a cinematic first impression, clear product storytelling, and useful shopping interactions.",
     image: "/images/photo1.png",
-    imageAlt: "AmaanTrader jacket photograph supplied for the portfolio project",
+    imageAlt: "AmaanTrader storefront homepage featuring a navy varsity jacket in the outerwear collection",
     category: "E-COMMERCE",
     year: "2026",
     role: "UI design · Front-end development",
@@ -59,7 +59,7 @@ export const projects: Project[] = [
     overview:
       "A book exchange platform concept for a home-run non-fiction book community, designed around discovery, useful book details, and a straightforward exchange journey.",
     image: "/images/photo2.png",
-    imageAlt: "Book Exchange project photograph supplied for the portfolio",
+    imageAlt: "Book Exchange homepage preview with a non-fiction book exchange message and stacked-book illustration",
     category: "FULL-STACK WEB APP",
     year: "2026",
     role: "Full-stack development",

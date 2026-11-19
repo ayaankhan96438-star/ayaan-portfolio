@@ -42,6 +42,10 @@ export function CursorEffects() {
 
       const wasInactive = light.dataset.active !== "true";
       const bounds = zone.getBoundingClientRect();
+      if (!bounds.width || !bounds.height) {
+        hideLight();
+        return;
+      }
       const half = light.offsetWidth / 2;
       targetX = Math.min(Math.max(event.clientX, bounds.left + Math.min(half, bounds.width / 2)), bounds.right - Math.min(half, bounds.width / 2));
       targetY = Math.min(Math.max(event.clientY, bounds.top + Math.min(half, bounds.height / 2)), bounds.bottom - Math.min(half, bounds.height / 2));
@@ -55,15 +59,24 @@ export function CursorEffects() {
     };
 
     const hideLight = () => { light.dataset.active = "false"; };
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        hideLight();
+        if (frame) window.cancelAnimationFrame(frame);
+        frame = 0;
+      }
+    };
 
     window.addEventListener("pointermove", moveLight, { passive: true });
     window.addEventListener("blur", hideLight);
     document.addEventListener("mouseleave", hideLight);
+    document.addEventListener("visibilitychange", onVisibilityChange);
 
     return () => {
       window.removeEventListener("pointermove", moveLight);
       window.removeEventListener("blur", hideLight);
       document.removeEventListener("mouseleave", hideLight);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
       if (frame) window.cancelAnimationFrame(frame);
     };
   }, []);

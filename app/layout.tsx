@@ -14,6 +14,7 @@ import "./globals.css";
 import "./preloader.css";
 import "./palette.css";
 import "./features.css";
+import "./quality.css";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -200,13 +201,29 @@ export const metadata: Metadata = {
     template: "%s — Ayaan Khan",
   },
   description: siteConfig.description,
-  applicationName: "Ayaan Khan",
+  applicationName: "Ayaan Khan Portfolio",
+  authors: [{ name: siteConfig.name, url: siteUrl }],
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
+  keywords: [
+    "Ayaan Khan",
+    "software developer",
+    "web developer portfolio",
+    "React",
+    "Next.js",
+    "TypeScript",
+    "frontend development",
+  ],
+  alternates: { canonical: "/" },
+  icons: { icon: [{ url: "/icon.svg", type: "image/svg+xml" }] },
   openGraph: {
     type: "website",
+    url: siteUrl,
+    locale: "en_IN",
     title: siteConfig.title,
     description: siteConfig.description,
     siteName: "Ayaan Khan",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Ayaan Khan — Software Developer" }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Ayaan Khan — Software Developer portfolio" }],
   },
   twitter: {
     card: "summary_large_image",
@@ -214,22 +231,69 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     images: ["/og-image.png"],
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+};
+
+const profileStructuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": `${siteUrl}/#person`,
+      name: siteConfig.name,
+      url: siteUrl,
+      jobTitle: "Software Developer",
+      description: siteConfig.description,
+      image: `${siteUrl}/og-image.png`,
+      sameAs: [siteConfig.github, siteConfig.linkedin].filter(Boolean),
+      knowsAbout: [
+        "HTML5", "CSS3", "JavaScript", "TypeScript", "React", "Next.js",
+        "Tailwind CSS", "Node.js", "REST APIs", "Prisma", "PostgreSQL", "SQL",
+        "Python", "Git", "GitHub", "GSAP", "Framer Motion",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      url: siteUrl,
+      name: "Ayaan Khan — Software Developer",
+      description: siteConfig.description,
+      inLanguage: "en-IN",
+      publisher: { "@id": `${siteUrl}/#person` },
+    },
+  ],
 };
 
 export const viewport: Viewport = {
   colorScheme: "light dark",
+  // Keep one meta tag so the existing palette boot script can update it immediately.
+  themeColor: "#0E0F0C",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" data-theme="dark" suppressHydrationWarning>
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(profileStructuredData).replace(/</g, "\\u003c") }}
+        />
         <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
         <script dangerouslySetInnerHTML={{ __html: introBootScript }} />
         <script dangerouslySetInnerHTML={{ __html: paletteBootScript }} />
       </head>
       <body className={inter.variable}>
+        <a className="skip-link" href="#main-content">Skip to main content</a>
         <SmoothScrollProvider>
           <ScrollProgress />
           <Preloader />
