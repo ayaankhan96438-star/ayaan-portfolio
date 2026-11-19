@@ -5,7 +5,6 @@ import { Footer } from "@/components/Footer";
 import { Preloader } from "@/components/Preloader";
 import { SmoothScrollProvider } from "@/components/SmoothScrollProvider";
 import { CursorEffects } from "@/components/CursorEffects";
-import { PaletteBar } from "@/components/PaletteBar";
 import { ScrollAnimations } from "@/components/ScrollAnimations";
 import { siteConfig, siteUrl } from "@/lib/site";
 import { palettes } from "@/data/palettes";
@@ -56,20 +55,26 @@ const paletteBootScript = `
     "--dark", "--on-dark", "--warm", "--ok"
   ];
   try {
-    var raw = window.localStorage.getItem("palette-vars");
     var stateRaw = window.localStorage.getItem("palette-state");
-    if (!raw || !stateRaw) return;
-    var saved = JSON.parse(raw);
+    if (!stateRaw) return;
     var state = JSON.parse(stateRaw);
-    var allowedIds = ${JSON.stringify(palettes.map((palette) => palette.id))};
-    if (!saved || typeof saved !== "object" || !saved.vars || typeof saved.vars !== "object") return;
+    var allowedIds = ["0"].concat(${JSON.stringify(palettes.map((palette) => palette.id))});
     if (!state || typeof state !== "object" || allowedIds.indexOf(state.id) === -1) return;
-    if ((state.mode !== "light" && state.mode !== "dark") || state.mode !== saved.mode) return;
+    if (state.mode !== "light" && state.mode !== "dark") return;
+
+    root.dataset.paletteId = state.id;
+    root.dataset.paletteMode = state.mode;
+    root.style.colorScheme = state.mode;
+
+    if (state.id === "0") return;
+    var raw = window.localStorage.getItem("palette-vars");
+    if (!raw) return;
+    var saved = JSON.parse(raw);
+    if (!saved || typeof saved !== "object" || !saved.vars || typeof saved.vars !== "object" || saved.mode !== state.mode) return;
     keys.forEach(function (key) {
       var value = saved.vars[key];
       if (typeof value === "string") root.style.setProperty(key, value);
     });
-    if (saved.mode === "light" || saved.mode === "dark") root.style.colorScheme = saved.mode;
     var meta = document.querySelector('meta[name="theme-color"]');
     if (!meta) {
       meta = document.createElement("meta");
@@ -79,7 +84,7 @@ const paletteBootScript = `
     var paper = root.style.getPropertyValue("--paper");
     if (paper) meta.setAttribute("content", paper);
   } catch {
-    // Ignore malformed or unavailable palette storage and use the site defaults.
+    // Ignore malformed or unavailable palette storage and use the site's defaults.
   }
 })();
 `;
@@ -124,7 +129,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <SmoothScrollProvider>
           <Preloader />
           <CursorEffects />
-          <PaletteBar />
           <ScrollAnimations />
           <Navbar />
           {children}

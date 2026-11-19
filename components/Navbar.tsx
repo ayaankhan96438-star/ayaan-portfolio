@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { siteConfig } from "@/lib/site";
 import { useLenis } from "@/components/SmoothScrollProvider";
 import { ThemeSwitcher } from "@/components/ThemeSwitcher";
+import { PaletteBar } from "@/components/PaletteBar";
 
 const menuItems = [
   { label: "Home", href: "/#home", number: "01" },
@@ -95,6 +96,7 @@ export function Navbar() {
         </div>
 
         <div className="nav-actions">
+          <PaletteBar variant="header" />
           <ThemeSwitcher variant="header" />
           <button
             type="button"
@@ -127,6 +129,7 @@ export function Navbar() {
                 ayaan<span className="logo-period">.</span>
               </Link>
               <div className="menu-overlay-top-actions">
+                <PaletteBar variant="menu" />
                 <ThemeSwitcher variant="menu" />
                 <button type="button" className="menu-close" onClick={() => setMenuOpen(false)} aria-label="Close menu">
                   Close <X size={19} strokeWidth={1.6} />

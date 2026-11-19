@@ -546,7 +546,7 @@ img { display: block; max-width: 100%; }
   display: grid;
   max-width: 1240px;
   margin-inline: auto;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   column-gap: clamp(16px, 1.8vw, 26px);
   row-gap: clamp(28px, 3.5vw, 46px);
   padding-top: 42px;
@@ -611,6 +611,11 @@ img { display: block; max-width: 100%; }
 .stack-card-number { color: var(--muted); font-size: 9px; font-weight: 700; letter-spacing: .13em; }
 .stack-card-icon { display: grid; width: 38px; height: 38px; place-items: center; border: 1px solid var(--line); border-radius: 9px; background: var(--paper); color: var(--ink); }
 .stack-card h3 { margin: 23px 0 7px; font-size: clamp(21px, 2vw, 28px); font-weight: 750; letter-spacing: -.045em; line-height: 1.05; }
+:root[data-palette-mode="dark"][data-palette-id="B"],
+:root[data-palette-mode="dark"][data-palette-id="G"],
+:root[data-palette-mode="dark"][data-palette-id="M"] { --stack-heading: var(--accent-on-dark); }
+.stack-card h3 { color: var(--stack-heading, var(--ink)); }
+.playground-intro h3 span { color: var(--stack-heading, var(--muted)); }
 .stack-card-description { min-height: 42px; margin: 0; color: var(--muted); font-size: 11px; line-height: 1.55; }
 .stack-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 18px; }
 .stack-tag { display: inline-flex; align-items: center; gap: 6px; padding: 7px 9px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); color: var(--ink); font-size: 10px; line-height: 1; }

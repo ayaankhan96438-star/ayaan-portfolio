@@ -1,68 +1,65 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { palettes, type Palette } from "@/data/palettes";
 import { applyTheme, buildTheme, type Mode, type ThemeVariables } from "@/lib/palette";
 
-type Swatch = { id: string; hex: string };
-type PaletteOption = { id: string; swatches: Swatch[] };
-type StoredState = { id: string; mode: Mode };
+type PaletteId = "0" | "B" | "G" | "M";
+type StoredState = { id: PaletteId; mode: Mode };
+type PaletteBarProps = { variant: "header" | "menu" };
+type PaletteChangeDetail = StoredState;
 
-const ORIGINAL: PaletteOption = {
-  id: "0",
-  swatches: [
-    { id: "01", hex: "#EDEBE3" },
-    { id: "02", hex: "#F8F7F1" },
-    { id: "03", hex: "#A7C96B" },
-    { id: "04", hex: "#819E48" },
-    { id: "05", hex: "#171D18" },
-  ],
-};
-
-function toOption(palette: Palette): PaletteOption {
-  return {
-    id: palette.id,
-    swatches: Object.entries(palette.colors).map(([id, hex]) => ({ id, hex })),
-  };
-}
-
-const OPTIONS: PaletteOption[] = [ORIGINAL, ...palettes.map(toOption)];
 const DEFAULT_STATE: StoredState = { id: "0", mode: "dark" };
+const PALETTE_CHANGE_EVENT = "portfolio:palettechange";
+
+const DOT_OPTIONS: ReadonlyArray<{ id: PaletteId; color: string; label: string }> = [
+  { id: "B", color: "#BB3468", label: "Berry palette B" },
+  { id: "G", color: "#168EFE", label: "Blue palette G" },
+  { id: "M", color: "#ACDA60", label: "Green palette M" },
+  { id: "0", color: "#A7C96B", label: "Original palette" },
+];
 
 function isMode(value: unknown): value is Mode {
   return value === "light" || value === "dark";
 }
 
+function isPaletteId(value: unknown): value is PaletteId {
+  return value === "0" || value === "B" || value === "G" || value === "M";
+}
+
 function isStoredState(value: unknown): value is StoredState {
   if (typeof value !== "object" || value === null) return false;
   const record = value as Record<string, unknown>;
-  return typeof record.id === "string" && isMode(record.mode);
+  return isPaletteId(record.id) && isMode(record.mode);
 }
 
-function paletteById(id: string): Palette | undefined {
+function paletteById(id: PaletteId): Palette | undefined {
   return palettes.find((palette) => palette.id === id);
 }
 
-function saveState(id: string, mode: Mode, vars: ThemeVariables | null): void {
+function saveState(id: PaletteId, mode: Mode, vars: ThemeVariables | null): void {
   try {
-    if (vars) window.localStorage.setItem("palette-vars", JSON.stringify({ vars, mode }));
-    else window.localStorage.removeItem("palette-vars");
+    if (vars) {
+      window.localStorage.setItem("palette-vars", JSON.stringify({ vars, mode }));
+    } else {
+      window.localStorage.removeItem("palette-vars");
+    }
     window.localStorage.setItem("palette-state", JSON.stringify({ id, mode }));
   } catch {
-    // The selector remains usable for this session when storage is unavailable.
+    // The palette remains usable for this page view when storage is unavailable.
   }
 }
 
-export function PaletteBar() {
-  const [selectedId, setSelectedId] = useState("0");
-  const [mode, setMode] = useState<Mode>(DEFAULT_STATE.mode);
-  const [open, setOpen] = useState(false);
-  const [ready, setReady] = useState(false);
+function setRootPalette(id: PaletteId, mode: Mode): void {
+  document.documentElement.dataset.paletteId = id;
+  document.documentElement.dataset.paletteMode = mode;
+}
 
-  const selected = useMemo(
-    () => OPTIONS.find((option) => option.id === selectedId) ?? ORIGINAL,
-    [selectedId],
-  );
+export function PaletteBar({ variant }: PaletteBarProps) {
+  const [selectedId, setSelectedId] = useState<PaletteId>(DEFAULT_STATE.id);
+  const [mode, setMode] = useState<Mode>(DEFAULT_STATE.mode);
+  const [openId, setOpenId] = useState<PaletteId | null>(null);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     let restored: StoredState = DEFAULT_STATE;
@@ -76,131 +73,107 @@ export function PaletteBar() {
       restored = DEFAULT_STATE;
     }
 
-    const knownId = restored.id === "0" || paletteById(restored.id) !== undefined;
-    const safeId = knownId ? restored.id : "0";
-    const activeMode = restored.mode;
-    const palette = paletteById(safeId);
-
-    if (palette) {
-      const vars = buildTheme(Object.values(palette.colors), activeMode);
-      applyTheme(vars, activeMode);
-      saveState(safeId, activeMode, vars);
-    } else {
-      applyTheme(null, activeMode);
-      saveState("0", activeMode, null);
-    }
-
-    setSelectedId(safeId);
-    setMode(activeMode);
+    const palette = paletteById(restored.id);
+    const vars = palette ? buildTheme(Object.values(palette.colors), restored.mode) : null;
+    applyTheme(vars, restored.mode);
+    setRootPalette(restored.id, restored.mode);
+    saveState(restored.id, restored.mode, vars);
+    setSelectedId(restored.id);
+    setMode(restored.mode);
     setReady(true);
+
+    const onPaletteChange = (event: Event) => {
+      const detail = (event as CustomEvent<unknown>).detail;
+      if (!isStoredState(detail)) return;
+      setSelectedId(detail.id);
+      setMode(detail.mode);
+      setOpenId(null);
+    };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpenId(null);
+    };
+    window.addEventListener(PALETTE_CHANGE_EVENT, onPaletteChange);
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      window.removeEventListener(PALETTE_CHANGE_EVENT, onPaletteChange);
+      window.removeEventListener("keydown", onKeyDown);
+    };
   }, []);
 
-  function selectPalette(id: string): void {
+  function choosePaletteMode(id: PaletteId, nextMode: Mode): void {
     if (!ready) return;
+
     const palette = paletteById(id);
-    if (!palette) {
-      applyTheme(null, mode);
-      setSelectedId("0");
-      saveState("0", mode, null);
-      return;
-    }
-
-    const vars = buildTheme(Object.values(palette.colors), mode);
-    applyTheme(vars, mode);
-    setSelectedId(id);
-    saveState(id, mode, vars);
-  }
-
-  function selectMode(nextMode: Mode): void {
-    if (!ready || nextMode === mode) return;
-    const palette = paletteById(selectedId);
     const vars = palette ? buildTheme(Object.values(palette.colors), nextMode) : null;
     applyTheme(vars, nextMode);
+    setRootPalette(id, nextMode);
+    saveState(id, nextMode, vars);
+    setSelectedId(id);
     setMode(nextMode);
-    saveState(selectedId, nextMode, vars);
+    setOpenId(null);
+    window.dispatchEvent(
+      new CustomEvent<PaletteChangeDetail>(PALETTE_CHANGE_EVENT, {
+        detail: { id, mode: nextMode },
+      }),
+    );
   }
 
   return (
-    <div className="palette-control" aria-label="Portfolio color selector">
-      <button
-        type="button"
-        className="palette-trigger"
-        aria-expanded={open}
-        aria-haspopup="dialog"
-        aria-label={`Choose site colors. Current palette ${selectedId}`}
-        title={`Color palette ${selectedId}`}
-        onClick={() => setOpen((current) => !current)}
-      >
-        <span className="palette-trigger__dot" style={{ backgroundColor: selected.swatches[2]?.hex ?? "#A7C96B" }} />
-        <span className="palette-trigger__label">COLOR</span>
-        <strong>{selectedId}</strong>
-        <span className={`palette-trigger__chevron${open ? " is-open" : ""}`} aria-hidden="true">⌄</span>
-      </button>
-
-      {open && (
-        <section className="palette-popover" role="dialog" aria-label="Choose a color palette">
-          <header className="palette-popover__header">
-            <span>CHOOSE PALETTE</span>
-            <button type="button" className="palette-close" onClick={() => setOpen(false)} aria-label="Close color selector">×</button>
-          </header>
-
-          <div className="palette-options" aria-label="Available palettes">
-            {OPTIONS.map((option) => (
+    <div
+      className={`palette-control palette-control--${variant}`}
+      aria-label="Palette color choices"
+      onKeyDown={(event) => {
+        if (event.key === "Escape") setOpenId(null);
+      }}
+    >
+      <div className="palette-dot-list" role="group" aria-label="Choose a color palette">
+        {DOT_OPTIONS.map((option) => {
+          const isOpen = openId === option.id;
+          const isActive = selectedId === option.id;
+          const popoverId = `palette-mode-${variant}-${option.id}`;
+          return (
+            <div className="palette-dot-wrap" key={option.id}>
               <button
                 type="button"
-                key={option.id}
-                className={`palette-option${selectedId === option.id ? " is-selected" : ""}`}
-                aria-label={`Apply palette ${option.id}`}
-                aria-pressed={selectedId === option.id}
-                title={`Palette ${option.id}`}
-                onClick={() => selectPalette(option.id)}
+                className={`palette-dot-button${isActive ? " is-active" : ""}`}
+                aria-label={`${option.label}; choose light or dark mode`}
+                aria-expanded={isOpen}
+                aria-controls={popoverId}
+                aria-pressed={isActive}
+                title={option.label}
+                onClick={() => setOpenId(isOpen ? null : option.id)}
                 disabled={!ready}
               >
-                <span className="palette-option__name">{option.id}</span>
-                <span className="palette-option__swatches">
-                  {option.swatches.map((swatch) => (
-                    <span
-                      className="palette-option__swatch"
-                      key={swatch.id}
-                      style={{ backgroundColor: swatch.hex }}
-                      title={`${swatch.id} · ${swatch.hex}`}
-                      aria-label={`${swatch.id} ${swatch.hex}`}
-                    />
-                  ))}
-                </span>
+                <span className="palette-dot-swatch" style={{ backgroundColor: option.color }} aria-hidden="true" />
+                <span className="palette-dot-tooltip" aria-hidden="true">{option.id === "0" ? "Original" : `Palette ${option.id}`}</span>
               </button>
-            ))}
-          </div>
 
-          <div className="palette-popover__footer">
-            <span className="palette-current">PALETTE {selected.id}</span>
-            <div className="palette-mode" role="group" aria-label="Palette background mode">
-              <button
-                type="button"
-                className={`palette-mode__button${mode === "light" ? " is-active" : ""}`}
-                aria-pressed={mode === "light"}
-                onClick={() => selectMode("light")}
-                disabled={!ready}
-              >Light</button>
-              <button
-                type="button"
-                className={`palette-mode__button${mode === "dark" ? " is-active" : ""}`}
-                aria-pressed={mode === "dark"}
-                onClick={() => selectMode("dark")}
-                disabled={!ready}
-              >Dark</button>
+              {isOpen ? (
+                <div className="palette-mode-popover" id={popoverId} role="group" aria-label={`Choose ${option.label} background mode`}>
+                  <span className="palette-mode-heading">PALETTE {option.id}</span>
+                  <span className="palette-mode-prompt">Choose a background</span>
+                  <div className="palette-mode-actions">
+                    <button
+                      type="button"
+                      className={`palette-mode-choice${isActive && mode === "light" ? " is-current" : ""}`}
+                      aria-pressed={isActive && mode === "light"}
+                      onClick={() => choosePaletteMode(option.id, "light")}
+                      disabled={!ready}
+                    >Light</button>
+                    <button
+                      type="button"
+                      className={`palette-mode-choice${isActive && mode === "dark" ? " is-current" : ""}`}
+                      aria-pressed={isActive && mode === "dark"}
+                      onClick={() => choosePaletteMode(option.id, "dark")}
+                      disabled={!ready}
+                    >Dark</button>
+                  </div>
+                </div>
+              ) : null}
             </div>
-          </div>
-          <div className="palette-detail" aria-live="polite">
-            {selected.swatches.map((swatch) => (
-              <span className="palette-detail__item" key={swatch.id} title={`${swatch.id} · ${swatch.hex}`}>
-                <i style={{ backgroundColor: swatch.hex }} />
-                {swatch.id}
-              </span>
-            ))}
-          </div>
-        </section>
-      )}
+          );
+        })}
+      </div>
     </div>
   );
 }

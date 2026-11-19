@@ -194,6 +194,7 @@ export function applyTheme(vars: ThemeVariables | null, mode: Mode): void {
     else root.style.removeProperty(key);
   }
   root.style.colorScheme = mode;
+  root.dataset.paletteMode = mode;
 
   let meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
   if (!meta) {
