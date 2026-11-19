@@ -36,10 +36,10 @@ export function BrowserWindow({
         <span className="browser-window-actions"><i /><i /><i /></span>
       </span>
       <span className="browser-window-viewport">
-        {src.startsWith("/images/") ? (
+        {src.endsWith(".svg") ? (
           <ThemeArtwork src={src} alt={alt} />
         ) : (
-          <Image src={src} alt={alt} fill sizes={sizes} priority={priority} />
+          <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className="project-image" />
         )}
       </span>
     </span>

@@ -1,0 +1,29 @@
+AYAAN PORTFOLIO — RESPONSIVE / SPEED / STACK UPDATE
+
+Files in this overlay:
+- components/Preloader.tsx — shorter first-visit preloader, readiness gate no longer waits for all images/window load, and preview image strips removed from preloader only.
+- app/preloader.css — compact centered phone layout; desktop/tablet preloader sizing stays as before.
+- components/HeroSection.tsx — more breathing room between Think / Code / Ship letters, faster hero entrance and lighter scroll scrubbing; fewer high-priority duplicate strip images.
+- components/SmoothScrollProvider.tsx — quicker, more responsive Lenis scrolling.
+- components/PlaygroundSection.tsx — replaces draggable scatter layout with grouped Frontend, Backend, Databases, Programming & Tools cards.
+- app/globals.css — refined three project cards and responsive skill cards, looser hero typography, shorter image/hover transitions.
+- package.json — keeps next and eslint-config-next on patched 15.5.29.
+
+Stack accuracy:
+- MongoDB is visibly marked “currently learning”, not presented as production experience.
+- Technologies are grouped from the portfolio's project stack and the requested learning areas.
+
+Apply from the project root:
+  unzip -o ~/Downloads/ayaan-portfolio-update-nov18.zip -d .
+  npm install
+  npm run typecheck
+  npm run build
+
+Then commit/push the changes to GitHub. No credentials or environment files are included.
+
+After the checks pass, publish:
+  git add app/globals.css app/preloader.css components/HeroSection.tsx components/Preloader.tsx components/PlaygroundSection.tsx components/ProjectsSection.tsx components/SmoothScrollProvider.tsx package.json package-lock.json
+  git commit -m "Improve responsive preloader, stack and motion"
+  git push origin main
+
+Vercel will start a production deployment from the updated main branch.

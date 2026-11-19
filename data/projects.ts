@@ -30,8 +30,8 @@ export const projects: Project[] = [
     shortDescription: "A sharper storefront for outerwear, built to make browsing feel like an experience.",
     overview:
       "A premium jacket and outerwear shopping concept with a cinematic first impression, clear product storytelling, and useful shopping interactions.",
-    image: "/images/project-amaantrader.svg",
-    imageAlt: "Editorial outerwear storefront mockup with a jacket product card",
+    image: "/images/photo1.png",
+    imageAlt: "AmaanTrader jacket photograph supplied for the portfolio project",
     category: "E-COMMERCE",
     year: "2026",
     role: "UI design · Front-end development",
@@ -52,42 +52,14 @@ export const projects: Project[] = [
       "A more considered shopping experience that treats outerwear like the hero product, not just another grid item.",
   },
   {
-    slug: "royal-realms-chess",
-    number: "02",
-    title: "Royal Realms Chess",
-    shortDescription: "A chess game with a little more personality than the usual 64 squares.",
-    overview:
-      "An offline-first chess experience built around expressive board themes, distinct piece styling, and opponents that scale from a casual warm-up to a serious challenge.",
-    image: "/images/project-chess.svg",
-    imageAlt: "Abstract dark chessboard with neon green pieces and a minimal game interface",
-    category: "INTERACTIVE PRODUCT",
-    year: "2026",
-    role: "Product design · Front-end development",
-    stack: ["Vite", "chess.js", "Stockfish"],
-    liveUrl: "https://ayaankhan96438-star.github.io/royal-realms-chess/",
-    githubUrl: "https://github.com/ayaankhan96438-star/royal-realms-chess",
-    challenge:
-      "Make a familiar game feel personal without getting in the way of the game itself. The interface needed to stay readable, responsive, and usable without an internet connection.",
-    approach:
-      "I built the experience around a clean game surface, selectable visual themes, and a modular opponent setup. Chess rules are handled by chess.js, while the engine integration provides stronger computer play.",
-    highlights: [
-      "Selectable board worlds with live previews",
-      "Offline-friendly gameplay and local assets",
-      "Difficulty modes powered by a chess engine",
-      "Responsive layout for laptop and smaller screens",
-    ],
-    result:
-      "A focused chess playground where the board is the star, with enough customization to make repeat games feel fresh.",
-  },
-  {
     slug: "book-exchange",
-    number: "03",
+    number: "02",
     title: "Book Exchange",
     shortDescription: "A small, community-minded home for passing good non-fiction books along.",
     overview:
       "A book exchange platform concept for a home-run non-fiction book community, designed around discovery, useful book details, and a straightforward exchange journey.",
-    image: "/images/project-books.svg",
-    imageAlt: "Warm editorial library interface with colorful non-fiction book covers",
+    image: "/images/photo2.png",
+    imageAlt: "Book Exchange project photograph supplied for the portfolio",
     category: "FULL-STACK WEB APP",
     year: "2026",
     role: "Full-stack development",
