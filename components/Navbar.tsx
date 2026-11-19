@@ -11,7 +11,8 @@ const menuItems = [
   { label: "Home", href: "/#home", number: "01" },
   { label: "About", href: "/#about", number: "02" },
   { label: "Selected work", href: "/#work", number: "03" },
-  { label: "Contact", href: "/#contact", number: "04" },
+  { label: "Live Playground", href: "/playground", number: "04" },
+  { label: "Contact", href: "/#contact", number: "05" },
 ];
 
 export function Navbar() {

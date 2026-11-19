@@ -4,6 +4,8 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Preloader } from "@/components/Preloader";
 import { SmoothScrollProvider } from "@/components/SmoothScrollProvider";
+import { CursorEffects } from "@/components/CursorEffects";
+import { ScrollAnimations } from "@/components/ScrollAnimations";
 import { siteConfig, siteUrl } from "@/lib/site";
 import "./globals.css";
 import "./preloader.css";
@@ -65,6 +67,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className={inter.variable}>
         <SmoothScrollProvider>
           <Preloader />
+          <CursorEffects />
+          <ScrollAnimations />
           <Navbar />
           {children}
           <Footer />
