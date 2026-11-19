@@ -1,32 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowDownRight, ArrowUpRight, Sparkles } from "lucide-react";
-import { BrowserWindow } from "@/components/BrowserWindow";
-import { projects } from "@/data/projects";
+import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 import { useLayoutEffect, useRef, type PointerEvent } from "react";
 import gsap from "gsap";
 
-const featuredProjects = projects.slice(0, 2);
-
-function handleProjectPointerMove(event: PointerEvent<HTMLElement>) {
+function handleStagePointerMove(event: PointerEvent<HTMLDivElement>) {
   if (event.pointerType === "touch") return;
-  const tilt = event.currentTarget.querySelector<HTMLElement>(".hero-floating-project-tilt");
-  if (!tilt) return;
   const bounds = event.currentTarget.getBoundingClientRect();
-  const x = (event.clientX - bounds.left) / bounds.width;
-  const y = (event.clientY - bounds.top) / bounds.height;
-  tilt.style.setProperty("--hero-rotate-x", `${(0.5 - y) * 7}deg`);
-  tilt.style.setProperty("--hero-rotate-y", `${(x - 0.5) * 9}deg`);
-  tilt.style.setProperty("--hero-card-lift", "-8px");
+  const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+  const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+  event.currentTarget.style.setProperty("--laptop-rotate-x", `${y * -7}deg`);
+  event.currentTarget.style.setProperty("--laptop-rotate-y", `${x * 9}deg`);
+  event.currentTarget.style.setProperty("--laptop-shift-x", `${x * 7}px`);
+  event.currentTarget.style.setProperty("--laptop-shift-y", `${y * 7}px`);
 }
 
-function handleProjectPointerLeave(event: PointerEvent<HTMLElement>) {
-  const tilt = event.currentTarget.querySelector<HTMLElement>(".hero-floating-project-tilt");
-  if (!tilt) return;
-  tilt.style.setProperty("--hero-rotate-x", "0deg");
-  tilt.style.setProperty("--hero-rotate-y", "0deg");
-  tilt.style.setProperty("--hero-card-lift", "0px");
+function resetStagePointer(event: PointerEvent<HTMLDivElement>) {
+  event.currentTarget.style.setProperty("--laptop-rotate-x", "0deg");
+  event.currentTarget.style.setProperty("--laptop-rotate-y", "0deg");
+  event.currentTarget.style.setProperty("--laptop-shift-x", "0px");
+  event.currentTarget.style.setProperty("--laptop-shift-y", "0px");
 }
 
 export function HeroSection() {
@@ -34,51 +28,55 @@ export function HeroSection() {
 
   useLayoutEffect(() => {
     const root = heroRef.current;
-    if (!root) return;
-
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduceMotion) return;
+    if (!root || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     let revealTimeline: gsap.core.Timeline | null = null;
     const context = gsap.context(() => {
       revealTimeline = gsap.timeline({ paused: true });
       revealTimeline
         .fromTo(
-          ".hero-orbit-kicker",
-          { y: 16, autoAlpha: 0 },
-          { y: 0, autoAlpha: 1, duration: 0.6, ease: "power3.out" },
+          ".hero-kicker",
+          { y: 14, autoAlpha: 0 },
+          { y: 0, autoAlpha: 1, duration: 0.55, ease: "power3.out" },
         )
         .fromTo(
-          ".hero-orbit-title-line",
-          { yPercent: 112, rotate: 2, autoAlpha: 0 },
+          ".hero-word-line",
+          { yPercent: 115, rotate: 2, autoAlpha: 0 },
           {
             yPercent: 0,
             rotate: 0,
             autoAlpha: 1,
-            duration: 1.05,
+            duration: 0.9,
             stagger: 0.13,
             ease: "power4.out",
             clearProps: "transform,opacity,visibility",
           },
-          "-=0.28",
+          "-=0.2",
         )
         .fromTo(
-          ".hero-orbit-description, .hero-orbit-actions, .hero-orbit-process",
+          ".hero-description, .hero-cta-row, .hero-process",
           { y: 18, autoAlpha: 0 },
-          { y: 0, autoAlpha: 1, duration: 0.65, stagger: 0.1, ease: "power3.out" },
-          "-=0.55",
+          { y: 0, autoAlpha: 1, duration: 0.65, stagger: 0.09, ease: "power3.out" },
+          "-=0.48",
         )
         .fromTo(
-          ".hero-floating-project",
-          { y: 48, autoAlpha: 0, scale: 0.94 },
-          { y: 0, autoAlpha: 1, scale: 1, duration: 1, stagger: 0.18, ease: "power3.out", clearProps: "transform,opacity,visibility" },
-          "-=0.58",
+          ".hero-laptop-wrap",
+          { y: 36, scale: 0.88, autoAlpha: 0 },
+          {
+            y: 0,
+            scale: 1,
+            autoAlpha: 1,
+            duration: 1.15,
+            ease: "power3.out",
+            clearProps: "transform,opacity,visibility",
+          },
+          "-=0.75",
         )
         .fromTo(
-          ".hero-orbit-decor",
-          { scale: 0.6, autoAlpha: 0, rotate: -18 },
-          { scale: 1, autoAlpha: 1, rotate: 0, duration: 1.1, stagger: 0.08, ease: "back.out(1.35)" },
-          "-=0.9",
+          ".hero-orbit, .hero-orb, .hero-floating-label",
+          { autoAlpha: 0 },
+          { autoAlpha: 1, duration: 0.9, stagger: 0.08, ease: "power2.out" },
+          "-=0.85",
         );
     }, root);
 
@@ -104,99 +102,97 @@ export function HeroSection() {
         <span className="hero-index">INDEPENDENTLY BUILT / ALWAYS ITERATING</span>
       </div>
 
-      <div className="hero-floating-layout">
-        <div className="hero-floating-copy">
-          <div className="hero-orbit-kicker">
-            <span className="hero-orbit-kicker-dot" aria-hidden="true" />
-            <span>PERSONAL PROJECTS · OPEN TO LEARNING</span>
-          </div>
-
-          <h1 className="hero-orbit-title" id="hero-title">
-            <span className="hero-orbit-title-mask"><span className="hero-orbit-title-line hero-orbit-title-build">BUILD<span className="hero-orbit-title-period">.</span></span></span>
-            <span className="hero-orbit-title-mask"><span className="hero-orbit-title-line">ideas into</span></span>
-            <span className="hero-orbit-title-mask"><span className="hero-orbit-title-line hero-orbit-title-accent">real experiences.</span></span>
+      <div className="hero-layout">
+        <div className="hero-copy">
+          <span className="hero-kicker">IDEAS INTO DIGITAL EXPERIENCES</span>
+          <h1 className="hero-title" id="hero-title">
+            <span className="hero-word-mask"><span className="hero-word-line">BUILD<span className="hero-dot">.</span></span></span>
+            <span className="hero-word-mask"><span className="hero-word-line">SHAPE<span className="hero-dot">.</span></span></span>
+            <span className="hero-word-mask"><span className="hero-word-line hero-word-line--accent">LAUNCH<span className="hero-dot">.</span></span></span>
           </h1>
-
-          <p className="hero-orbit-description">
-            I&apos;m Ayaan — learning, experimenting, and turning ideas into thoughtful digital experiences.
+          <p className="hero-description">
+            Turning curious ideas into thoughtful websites and digital experiences, one project at a time.
           </p>
-
-          <div className="hero-orbit-actions">
-            <Link href="#work" className="hero-orbit-primary">
-              Explore my work <ArrowUpRight size={17} strokeWidth={1.8} aria-hidden="true" />
+          <div className="hero-cta-row">
+            <Link href="#work" className="hero-primary-cta">
+              Explore projects <ArrowUpRight size={17} strokeWidth={1.8} aria-hidden="true" />
             </Link>
-            <Link href="#contact" className="hero-orbit-secondary">Let&apos;s connect</Link>
+            <Link href="#contact" className="hero-secondary-cta">Let&apos;s connect</Link>
           </div>
-
-          <div className="hero-orbit-process" aria-label="My creative process: plan, experiment, improve">
-            <span><i>01</i> PLAN</span>
-            <span className="hero-orbit-process-line" aria-hidden="true" />
-            <span><i>02</i> EXPERIMENT</span>
-            <span className="hero-orbit-process-line" aria-hidden="true" />
-            <span><i>03</i> IMPROVE</span>
+          <div className="hero-process" aria-label="Build, shape, launch">
+            <span><b>01</b> BUILD</span>
+            <i aria-hidden="true" />
+            <span><b>02</b> SHAPE</span>
+            <i aria-hidden="true" />
+            <span><b>03</b> LAUNCH</span>
           </div>
         </div>
 
-        <div className="hero-orbit-scene" aria-label="Two featured portfolio projects">
-          <div className="hero-orbit-ring hero-orbit-ring--one hero-orbit-decor" aria-hidden="true" />
-          <div className="hero-orbit-ring hero-orbit-ring--two hero-orbit-decor" aria-hidden="true" />
-          <div className="hero-orbit-ring-core hero-orbit-decor" aria-hidden="true" />
-          <span className="hero-orbit-sphere hero-orbit-sphere--orange hero-orbit-decor" aria-hidden="true" />
-          <span className="hero-orbit-sphere hero-orbit-sphere--green hero-orbit-decor" aria-hidden="true" />
-          <span className="hero-orbit-sphere hero-orbit-sphere--cream hero-orbit-decor" aria-hidden="true" />
-          <span className="hero-orbit-cross hero-orbit-cross--one hero-orbit-decor" aria-hidden="true">+</span>
-          <span className="hero-orbit-cross hero-orbit-cross--two hero-orbit-decor" aria-hidden="true">+</span>
+        <div
+          className="hero-3d-stage"
+          role="img"
+          aria-label="A floating three-dimensional laptop with orbiting shapes"
+          onPointerMove={handleStagePointerMove}
+          onPointerLeave={resetStagePointer}
+        >
+          <div className="hero-stage-glow" aria-hidden="true" />
+          <div className="hero-orbit hero-orbit--outer" aria-hidden="true" />
+          <div className="hero-orbit hero-orbit--inner" aria-hidden="true" />
+          <div className="hero-orbit hero-orbit--fine" aria-hidden="true" />
 
-          {featuredProjects.map((project, index) => (
-            <article
-              className={`hero-floating-project hero-floating-project--${index === 0 ? "primary" : "secondary"}`}
-              key={project.slug}
-              onPointerMove={handleProjectPointerMove}
-              onPointerLeave={handleProjectPointerLeave}
-            >
-              <div className="hero-floating-project-drift">
-                <div className="hero-floating-project-tilt">
-                  <Link href={`/work/${project.slug}`} className="hero-floating-project-link" aria-label={`Explore ${project.title}`}>
-                    <div className="hero-floating-project-browser">
-                      <BrowserWindow
-                        src={project.image}
-                        alt={project.imageAlt}
-                        sizes="(max-width: 640px) 76vw, (max-width: 1000px) 46vw, 35vw"
-                        priority
-                        className="hero-floating-browser"
-                        address={project.liveUrl || "Ayaan Khan / Selected work"}
-                      />
+          <span className="hero-orb hero-orb--orange" aria-hidden="true" />
+          <span className="hero-orb hero-orb--green" aria-hidden="true" />
+          <span className="hero-orb hero-orb--small" aria-hidden="true" />
+
+          <span className="hero-floating-label hero-floating-label--top" aria-hidden="true">
+            <i /> DIGITAL CRAFT / 001
+          </span>
+          <span className="hero-floating-label hero-floating-label--bottom" aria-hidden="true">
+            BUILT WITH CURIOSITY <b>↗</b>
+          </span>
+
+          <div className="hero-laptop-wrap">
+            <div className="hero-laptop">
+              <div className="hero-laptop-lid">
+                <div className="hero-laptop-camera" aria-hidden="true" />
+                <div className="hero-laptop-screen">
+                  <div className="hero-editor-toolbar">
+                    <span className="hero-editor-dots"><i /><i /><i /></span>
+                    <span>ayaan / portfolio.tsx</span>
+                    <span className="hero-editor-status">● LIVE</span>
+                  </div>
+                  <div className="hero-editor-body" aria-hidden="true">
+                    <div className="hero-line-numbers">
+                      <span>01</span><span>02</span><span>03</span><span>04</span>
+                      <span>05</span><span>06</span><span>07</span><span>08</span>
                     </div>
-                    <div className="hero-floating-project-meta">
-                      <div>
-                        <span className="hero-floating-project-index">PROJECT {project.number} / {project.category}</span>
-                        <strong>{project.title}</strong>
-                      </div>
-                      <span className="hero-floating-project-arrow"><ArrowUpRight size={16} strokeWidth={1.8} aria-hidden="true" /></span>
+                    <div className="hero-code-lines">
+                      <span><b>const</b> <em>build</em> = () =&gt; {"{"}</span>
+                      <span className="hero-code-indent"><b>return</b> (</span>
+                      <span className="hero-code-indent-two"><i>&lt;Experience</i></span>
+                      <span className="hero-code-indent-three">ideas=<strong>&quot;curious&quot;</strong></span>
+                      <span className="hero-code-indent-three">motion=<strong>&quot;thoughtful&quot;</strong></span>
+                      <span className="hero-code-indent-two"><i>/&gt;</i></span>
+                      <span className="hero-code-indent">);</span>
+                      <span>{"}"}</span>
                     </div>
-                  </Link>
+                  </div>
+                  <div className="hero-editor-footer"><span>main</span><span>UTF-8</span><span>TypeScript JSX</span></div>
                 </div>
               </div>
-            </article>
-          ))}
-
-          <div className="hero-orbit-center-label hero-orbit-decor" aria-hidden="true">
-            <Sparkles size={13} strokeWidth={1.7} />
-            <span>MADE BY CURIOSITY</span>
-          </div>
-          <div className="hero-orbit-caption" aria-hidden="true">
-            <span>SELECTED WORK</span><strong>01 — 02</strong>
+              <div className="hero-laptop-base"><span /></div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="hero-bottomline hero-floating-bottomline">
-        <p>SMALL IDEAS.<br />REAL-WORLD EXPERIMENTS.</p>
+      <div className="hero-bottomline">
+        <p>BUILDING THROUGH<br />CURIOSITY & PRACTICE.</p>
         <Link href="#work" className="scroll-cue">
           <span>Scroll to explore</span>
           <ArrowDownRight size={19} strokeWidth={1.5} aria-hidden="true" />
         </Link>
-        <span className="hero-side-note">LEARN SOMETHING.<br />MAKE SOMETHING.</span>
+        <span className="hero-side-note">GOOD IDEAS DESERVE<br />GOOD EXECUTION.</span>
       </div>
     </section>
   );
